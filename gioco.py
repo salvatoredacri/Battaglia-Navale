@@ -1,55 +1,87 @@
-from ship_class import Navi
-from griglia import crea_griglia, stampa_griglia
-from standards import ship_list
-#  metodo che opermette di sparare
-def sparare(griglia, ship_list, riga, colonna):
-    posizione_colpita = griglia[riga][colonna]
-    if posizione_colpita != 0:
-        nave = ship_list[posizione_colpita - 1]                              
-        Navi.nave_colpita(riga, colonna)
-        if Navi.colpita.count(True) == Navi.lunghezza:
-            Navi.nave_affondata()
-            return True
-    else:
-        print("Mancato!")
-    return False
+from griglia import *
 
-def gioca_locale():
-    # Crea le griglie dei due giocatori
-    print("Creazione della griglia del primo giocatore:")
-    griglia1 = crea_griglia()
-    print("Creazione della griglia del secondo giocatore:")
-    griglia2 = crea_griglia()
-    
-    # Ciclo di gioco: il primo giocatore gioca, poi il secondo
-    giocatori = [(griglia1, "Giocatore 1"), (griglia2, "Giocatore 2")]
-    for i in range(2):
-        griglia, nome_giocatore = giocatori[i]
-        print(f"\nTurno di {nome_giocatore}!")
-        turno_finito = False
-        while not turno_finito:
-            # Stampa la griglia del giocatore corrente
-            print(f"\nGriglia di {nome_giocatore}:")
-            stampa_griglia(griglia, len(griglia), len(griglia[0]))
-            
-            # Chiede all'utente le coordinate dove sparare
-            riga = int(input("Inserisci la riga in cui sparare: "))
-            colonna = int(input("Inserisci la colonna in cui sparare: "))
-            
-            # Esegue lo sparo
-            affondata = sparare(griglia, ship_list, riga, colonna)
-            if affondata:
-                print("Nave affondata!")
-            
-            # Verifica se il turno è finito
-            if all(nave.affondata for nave in ship_list):
-                print(f"{nome_giocatore} ha vinto!")
-                turno_finito = True
-            elif affondata:
-                continue
-            else:
-                turno_finito = True
-    print("Fine del gioco!")
+
+def turno(griglia_combattimento, giocatore, griglia_colpi, fine_gioco, lista_navi): 
+    """
+    Esegue un turno di gioco per il giocatore corrente.
+
+    Argomenti:
+    - griglia_combattimento: la griglia di gioco del giocatore avversario
+    - giocatore: il nome del giocatore corrente
+    - griglia_colpi: la griglia dei colpi effettuati dal giocatore corrente
+    - fine_gioco: flag che indica se il gioco è terminato
+    - lista_navi: la lista delle navi in gioco
+
+    Ritorno:
+    - fine_gioco: flag che indica se il gioco è terminato
+    - griglia_colpi: la griglia dei colpi effettuati dal giocatore corrente
+    - griglia_combattimento: la griglia di gioco del giocatore avversario
+
+    """
+    fine_turno = False
+    print(giocatore, "Ecco la tua griglia dei colpi effettuati")
+    stampa_griglia(griglia_colpi, len(griglia_colpi))
+    print(giocatore, "inserisci le coordinate dove vuoi sparare")
+
+    while not fine_turno:
+        try:
+         riga = int(input("Inserisci la riga di dove vuoi sparare (1-9): "))
+         if riga < 0 or riga > len(griglia_combattimento):
+            print("Coordinate non valide. Inserisci coordinate valide.")
+        except ValueError:
+         print('Inserisci un numero valido') 
+         continue
+        try:    
+         colonna = int(input("Inserisci la colonna di dove vuoi sparare (1-9): "))
+         if colonna < 0 or colonna > len(griglia_combattimento):
+            print("Coordinate non valide. Inserisci coordinate valide.")
+        except ValueError:     
+         print('Inserisci un numero valido')
+         continue
+
+        if griglia_colpi[riga][colonna] != 0:
+            print("Hai già sparato in questa posizione. Riprova.")
+            continue
+
+        hit = False
+        
+        for nave in lista_navi:
+            if nave.check_hit(riga, colonna,griglia_combattimento):
+                print("Hai colpito una nave!")
+                hit = True
+                griglia_colpi[riga][colonna] = "c"
+                nave.is_hit(riga,colonna,griglia_combattimento)
+                if nave.is_sunk():
+                    print("Hai affondato una nave!",nave.nome)
+                    if all(n.is_sunk() for n in lista_navi):
+                        fine_gioco = vittoria(lista_navi)  # Tutte le navi sono affondate, fine del gioco
+                break
+
+        if not hit:
+            print("Hai sparato in acqua.")
+            griglia_colpi[riga][colonna] = "-"
+
+        fine_turno = True
+        print("\nGriglia dei colpi:")
+        stampa_griglia(griglia_colpi, len(griglia_colpi))
+
+    return fine_gioco, griglia_colpi, griglia_combattimento
+
+def vittoria(lista_navi): 
+    """
+    Determina se tutte le navi nella lista sono state affondate.
+
+    Argomenti:
+    - lista_navi: Una lista delle navi nel gioco.
+
+    Valore di ritorno:
+    - True se tutte le navi sono state affondate, False altrimenti.
+    """
+    for nave in lista_navi:
+        if not nave.is_sunk():
+            return False
+    return True
+
 
 
 
