@@ -1,112 +1,83 @@
+from griglia import *
+
 class Navi:
-    def __init__(self,nome,lunghezza):
-        self.nome=nome
-        self.lunghezza=lunghezza
-        self.colpita=[False]*lunghezza
-        self.affondata=False
+    def __init__(self, nome, lunghezza, coordinate=None): 
+        """
+        Inizializza un oggetto Navi con il nome, la lunghezza e le coordinate specificate.
 
+        Argomenti:
+        - nome: Il nome della nave.
+        - lunghezza: La lunghezza della nave.
+        - coordinate: Le coordinate occupate dalla nave. (Default: None)
 
-    def nave_colpita(self, riga, colonna, griglia_giocatore):
-        posizione_colpita=griglia_giocatore[riga][colonna]
-        if posizione_colpita!=0:
-            self.colpita[posizione_colpita-1]=True
-        return False
+        Attributi:
+        - nome: Il nome della nave.
+        - lunghezza: La lunghezza della nave.
+        - coordinate: Le coordinate occupate dalla nave.
+        - colpi: Il numero di volte che la nave è stata colpita.
 
-
-    def nave_affondata(self):
-        if all(self.colpita):
-            print ("hai affondato la nave")
-        return False
-    #rimuovi le coordinate colpite dalla griglia
+        """
+        self.nome = nome
+        self.lunghezza = lunghezza
+          # Lista delle posizioni occupate dalla nave
+        
+        self.colpi = 0  # Numero di volte che la nave è stata colpita
+        # self.affondata = False  # Indica se la nave è stata affondata 
+        if coordinate is None:
+         self.coordinate = []
+        else:
+            self.coordinate = coordinate
     
-    def rimuovi_coordinate(self,griglia_giocatore,riga,colonna):
-         for i in range(self.lunghezza):
-             if self.colpita[i]==True:
-                 griglia_giocatore[riga][colonna]='c'
-                 return griglia_giocatore
-             return False
-                
-                 
-                 
-                 
-                 
+    def check_hit(self, riga, colonna, griglia): 
+        """
+        Verifica se la nave è stata colpita in una specifica posizione.
 
+        Argomenti:
+        - riga: La riga in cui si vuole verificare il colpo.
+        - colonna: La colonna in cui si vuole verificare il colpo.
+        - griglia: La griglia del giocatore in cui si trova la nave.
 
+        Valore di ritorno:
+        - True se la nave è stata colpita nella posizione specificata, False altrimenti.
 
-
-def puo_inserire_nave(nave, orientamento, riga, colonna, griglia):
-    if orientamento == "orizzontale":
-        # Controllo se entra
-        if colonna + nave.lunghezza > len(griglia[0]):
-            print("La nave non entra in questa posizione. Riprova")
-            return False
-        for i in range(nave.lunghezza):
-            # Controllo che non sia sopra un'altra nave
-            if griglia[riga][colonna + i] != 0:
-                print("In queste coordinate è già presente un'altra nave. Riprova")
-                return False
-            # Controllo che sopra non abbia niente se non mi trovo sulla prima riga
-            if riga > 0 and griglia[riga - 1][colonna + i] != 0:
-                print("c'è una nave nelle vicinanze di questa posizione")
-                return False
-            
-            # Controllo che sotto non abbia niente se non mi trovo sull'ultima riga
-            if riga < len(griglia) - 1 and griglia[riga + 1][colonna + i] != 0:
-                print("c'è una nave nelle vicinanze di questa posizione")
-                return False
-           
-            # Controllo sinistra se non sono sul bordo sinistro
-            if colonna + i > 0 and griglia[riga][colonna + i - 1] != 0:
-                print("c'è una nave nelle vicinanze di questa posizione")
-                return False
-           
-            # Controllo destra se non sono sul bordo destro
-            if colonna + i < nave.lunghezza - 1 and griglia[riga][colonna + i + 1] != 0:
-                print("c'è una nave nelle vicinanze di questa posizione")
-                return False
-            
-    elif orientamento == "verticale":
-        # Controllo se entra
-        if riga + nave.lunghezza > len(griglia[0]):
-            print("La nave non entra in questa posizione")
-            return False
-        for i in range(nave.lunghezza):
-          # controllo che non sia sopra un'altra nave
-            if griglia[riga + i][colonna] != 0:
-                print("In queste coordinate è già presente un'altra nave. Riprova")
-                return False
-            
-           # 
-            if colonna > 0 and griglia[riga + i][colonna - 1] != 0:
-                print("c'è una nave nelle vicinanze di questa posizione")
-                return False 
-            
-            #
-            if colonna < len(griglia) - 1 and griglia[riga + i][colonna + 1] != 0:
-                print("c'è una nave nelle vicinanze di questa posizione")
-                return False
+        """
+        posizione_colpita = griglia[riga][colonna]
       
-            if i > 0 and griglia[riga + i - 1][colonna] != 0:
-                print("c'è una nave nelle vicinanze di questa posizione")
-                return False
-      
-            if i < nave.lunghezza - 1 and griglia[riga + i + 1][colonna] != 0:
-                print("c'è una nave nelle vicinanze di questa posizione")
-                return False
-            
-    else:
-        raise ValueError("Orientamento non valido. Usare 'orizzontale' o 'verticale'.")
-    return True
- 
-def inserisci_nave(nave, orientamento, riga, colonna, griglia):
-    if puo_inserire_nave(nave, orientamento, riga, colonna, griglia):
-        if orientamento == "orizzontale":
-            for i in range(nave.lunghezza):
-                griglia[riga][colonna + i] = 'x'
-        elif orientamento == "verticale":
-            for i in range(nave.lunghezza):
-                griglia[riga + i][colonna] = 'x'
-        print("\nNave inserita correttamente:")
-        return griglia
-    else:
-        return False 
+        
+        if posizione_colpita == 1 and (riga, colonna) in self.coordinate:
+             return True
+        return False
+    
+    def is_hit(self, riga, colonna, griglia):    
+        """
+        Registra un colpo sulla nave nella posizione specificata.
+
+        Argomenti:
+        - riga: La riga in cui si è verificato il colpo.
+        - colonna: La colonna in cui si è verificato il colpo.
+        - griglia: La griglia del giocatore in cui si trova la nave.
+
+        Valore di ritorno:
+        - True se la nave è stata colpita nella posizione specificata, False altrimenti.
+
+        """
+        
+        if self.check_hit(riga,colonna,griglia):
+            self.coordinate.remove((riga,colonna))
+            self.colpi += 1
+            return True
+        return False
+    
+    def is_sunk(self):  
+        """
+        Verifica se la nave è affondata.
+
+        Valore di ritorno:
+        - True se la nave è affondata (è stata colpita tutte le volte necessarie), False altrimenti.
+
+        """
+        
+        if self.colpi == self.lunghezza:
+            return True
+        else:
+            return False
