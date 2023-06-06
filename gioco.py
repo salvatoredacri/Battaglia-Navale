@@ -1,7 +1,9 @@
 from griglia import *
-
+import os
+import time
 
 def turno(griglia_combattimento, giocatore, griglia_colpi, fine_gioco, lista_navi): 
+    
     """
     Esegue un turno di gioco per il giocatore corrente.
 
@@ -19,45 +21,61 @@ def turno(griglia_combattimento, giocatore, griglia_colpi, fine_gioco, lista_nav
 
     """
     fine_turno = False
-    print(giocatore, "Ecco la tua griglia dei colpi effettuati")
-    stampa_griglia(griglia_colpi, len(griglia_colpi))
-    print(giocatore, "inserisci le coordinate dove vuoi sparare")
+    
 
     while not fine_turno:
+        os.system('cls')
+        print(giocatore, "Ecco la tua griglia dei colpi effettuati")
+        stampa_griglia(griglia_colpi, len(griglia_colpi))
+        print(giocatore, "inserisci le coordinate dove vuoi sparare")
+
         try:
-         riga = int(input("Inserisci la riga di dove vuoi sparare (1-9): "))
+         colonna = input("Inserisci la lettera della colonna in cui vuoi sparare (es.A): ")
+         colonna = colonna.upper()
+         if colonna not in string.ascii_uppercase[:len(griglia_combattimento)]:
+            print("Lettera non valida. Inserisci una lettera da A a", string.ascii_uppercase[:len(griglia_combattimento)])
+            time.spleep(3)
+            continue
+        except ValueError:
+         print("Inserisci una lettera valido")
+         time.spleep(3) 
+         continue
+
+        try:
+         riga = int(input("Inserisci il numero della riga in cui vuoi sparare (es.1): ")) - 1
          if riga < 0 or riga > len(griglia_combattimento):
-            print("Coordinate non valide. Inserisci coordinate valide.")
+            print(f"Numero non valido. Inserisci nemero valido, da 1 a {len(griglia_combattimento)}")
+            time.spleep(3)
+            continue
         except ValueError:
          print('Inserisci un numero valido') 
+         time.spleep(3)
          continue
-        try:    
-         colonna = int(input("Inserisci la colonna di dove vuoi sparare (1-9): "))
-         if colonna < 0 or colonna > len(griglia_combattimento):
-            print("Coordinate non valide. Inserisci coordinate valide.")
-        except ValueError:     
-         print('Inserisci un numero valido')
-         continue
+    
+      
+        colonna = string.ascii_uppercase.index(colonna)  # Converte la lettera in indice
+   
 
         if griglia_colpi[riga][colonna] != 0:
             print("Hai già sparato in questa posizione. Riprova.")
+            time.spleep(3)
             continue
 
-        hit = False
+        colpo = False
         
         for nave in lista_navi:
-            if nave.check_hit(riga, colonna,griglia_combattimento):
+            if nave.controlla_colpo(riga, colonna,griglia_combattimento):
                 print("Hai colpito una nave!")
-                hit = True
+                colpo = True
                 griglia_colpi[riga][colonna] = "c"
-                nave.is_hit(riga,colonna,griglia_combattimento)
-                if nave.is_sunk():
+                nave.colpita(riga,colonna,griglia_combattimento)
+                if nave.affondata():
                     print("Hai affondato una nave!",nave.nome)
-                    if all(n.is_sunk() for n in lista_navi):
+                    if all(n.affondata() for n in lista_navi):
                         fine_gioco = vittoria(lista_navi)  # Tutte le navi sono affondate, fine del gioco
                 break
 
-        if not hit:
+        if not colpo:
             print("Hai sparato in acqua.")
             griglia_colpi[riga][colonna] = "-"
 
@@ -78,7 +96,7 @@ def vittoria(lista_navi):
     - True se tutte le navi sono state affondate, False altrimenti.
     """
     for nave in lista_navi:
-        if not nave.is_sunk():
+        if not nave.affondata():
             return False
     return True
 
