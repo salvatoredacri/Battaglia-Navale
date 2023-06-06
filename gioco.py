@@ -75,11 +75,27 @@ def turno(griglia_combattimento, giocatore, griglia_colpi, fine_gioco, lista_nav
                         fine_gioco = vittoria(lista_navi)  # Tutte le navi sono affondate, fine del gioco
                 break
 
-        if not colpo:
-            print("Hai sparato in acqua.")
-            griglia_colpi[riga][colonna] = "-"
+       
+        if hit and modalita == 0:
+             
+              print("\nGriglia dei colpi:")
+              stampa_griglia(griglia_colpi, len(griglia_colpi))
+              print('Puoi sarare ancora')
+              time.sleep(4)
 
-        fine_turno = True
+        elif not hit and modalita == 0:
+              print("Hai sparato in acqua.")
+              griglia_colpi[riga][colonna] = "-"
+              fine_turno = True
+        else:
+            if not hit and modalita == 1:
+             print("Hai sparato in acqua.")
+             griglia_colpi[riga][colonna] = "-"
+             fine_turno = True
+            elif hit and modalita == 1:
+               fine_turno = True
+      
+    
         print("\nGriglia dei colpi:")
         stampa_griglia(griglia_colpi, len(griglia_colpi))
 
