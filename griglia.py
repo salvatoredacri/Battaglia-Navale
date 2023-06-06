@@ -1,4 +1,8 @@
 
+import string
+import os
+
+
 def crea_griglia(dimensione):
   """
     Crea una griglia di gioco vuota con le dimensioni specificate.
@@ -11,66 +15,21 @@ def crea_griglia(dimensione):
 
     """
   griglia = [[0] * dimensione for _ in range(dimensione)]
-  stampa_griglia(griglia, dimensione)
+#   stampa_griglia(griglia, dimensione)
   return griglia
 
 
-def posiziona_navi(griglia, giocatore, lista_navi):
-    """
-    Posiziona le navi sulla griglia del giocatore.
 
-    Argomenti:
-    - griglia: la griglia in cui posizionare le navi (lista di liste)
-    - giocatore: il nome del giocatore (stringa)
-    - lista_navi: la lista delle navi da posizionare (lista di oggetti Nave)
 
-    Ritorno:
-    - None
-
-    """
-    i = 0    
-    while i < 5:
-        nave = (lista_navi[i]) 
-        print(giocatore, f",inserisci la nave: {lista_navi[i].nome} di lunghezza: {lista_navi[i].lunghezza} ")
-        orientamento = input("Inserisci l'orientamento della nave (orizzontale/verticale): ")
-        # #controllo che l'orientamento sia corretto
-        if orientamento != "orizzontale" and orientamento != "verticale":
-            print("Orientamento non valido. Riprova.")
-            continue
-        # # chiedo la riga
-        riga = int(input("Inserisci la riga in cui inserire la nave: "))
-        # # controllo che la riga sia corretta
-        if riga < 0 or riga > len(griglia)-1:
-         print(f"Riga non valida. Inserisci un numero da 0 a {len (griglia)-1} Riprova.")
-         continue
-        # controllo che rientri nella griglia
-        # chiedo la colonna
-        colonna = int(input("Inserisci la colonna in cui inserire la nave: "))
-        # controllo che la colonna sia corretta
-        if colonna < 0 or colonna > len(griglia)-1:
-         print(f"Colonna non valida. Inserisci un numero da 0 a {len(griglia)-1} Riprova.")
-         continue
-         
-         # inserisco la nave nella griglia del giocatore 
-        griglia_giocatore, coordinate = inserisci_nave(nave, orientamento, riga, colonna, griglia)
-        if griglia_giocatore != False:
-            nave.coordinate = coordinate
-            i+=1
-            stampa_griglia(griglia_giocatore, len(griglia))
-            print("\n\nEcco la tua griglia con le navi posizionate:")
-    return stampa_griglia(griglia_giocatore, len(griglia))
-    
-    
-          
-def stampa_griglia(griglia,dimensione):
-    print("\n  " + " ".join(str(x) for x in range(1, dimensione + 1)))
+def stampa_griglia(griglia, dimensione):
+    print("\n  " + " ".join(chr(ord('A') + c) for c in range(dimensione)))
     for r in range(dimensione):
-        print(str(r + 1) + " " + " ".join(str(c) for c in griglia[r]))
+        riga = [str(c) for c in griglia[r]]
+        print(str(r + 1) + " " + " ".join(riga))
     print()
 
-         
-
 def puo_inserire_nave(nave, orientamento, riga, colonna, griglia):
+
     """
     Verifica se è possibile inserire una nave in una determinata posizione sulla griglia.
 
@@ -146,6 +105,7 @@ def puo_inserire_nave(nave, orientamento, riga, colonna, griglia):
             
     else:
         raise ValueError("Orientamento non valido. Usare 'orizzontale' o 'verticale'.")
+    
     return True
  
 def inserisci_nave(nave, orientamento, riga, colonna, griglia): 
@@ -182,3 +142,69 @@ def inserisci_nave(nave, orientamento, riga, colonna, griglia):
         return griglia, coordinate
     else:
         return False
+                     
+  
+
+
+
+ 
+
+def posiziona_navi(griglia, giocatore, lista_navi):
+    """
+    Posiziona le navi sulla griglia del giocatore.
+
+    Argomenti:
+    - griglia: la griglia in cui posizionare le navi (lista di liste)
+    - giocatore: il nome del giocatore (stringa)
+    - lista_navi: la lista delle navi da posizionare (lista di oggetti Nave)
+
+    Ritorno:
+    - None
+
+    """
+    i = 0    
+    while i < 5:
+        
+        nave = lista_navi[i]
+        print(f"{giocatore}, inserisci la nave: {nave.nome} di lunghezza: {nave.lunghezza}")
+        orientamento = input("Inserisci l'orientamento della nave (orizzontale/verticale): ")
+        
+        # Controllo che l'orientamento sia corretto
+        if orientamento != "orizzontale" and orientamento != "verticale":
+            print("Orientamento non valido. Riprova.")
+            continue
+        
+    
+        # Chiedo la colonna
+        colonne_valide = string.ascii_uppercase[:len(griglia)]
+        colonna = input("Inserisci la lettera della colonna in cui vuoi posizionare la nave (es.A):  ")
+        colonna = colonna.upper()
+        # Controllo che la colonna sia corretta
+        if colonna not in colonne_valide:
+            print(f"Lettera non valida. Inserisci una lettera da A a {colonne_valide[-1]}. Riprova.")
+            continue
+
+        # Chiedo la riga
+        riga = int(input("Inserisci il numero della riga in cui vuoi inserire la nave (es.1): "))
+        
+        # Controllo che la riga sia corretta
+        if riga < 1 or riga > len(griglia):
+            print(f"Numero non valido. Inserisci nemero valido, da 1 a {len(griglia)}. Riprova.")
+            continue
+        
+        # Inserisco la nave nella griglia del giocatore 
+        result = inserisci_nave(nave, orientamento, riga - 1, colonne_valide.index(colonna), griglia)
+        
+        if result != False:
+            griglia_giocatore, coordinate = result
+            nave.coordinate = coordinate
+            i += 1
+            os.system('cls')
+            stampa_griglia(griglia_giocatore, len(griglia))
+            print("\n\nEcco la tua griglia con le navi posizionate:")
+            
+     
+    return stampa_griglia(griglia_giocatore, len(griglia_giocatore))
+
+
+
