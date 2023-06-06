@@ -19,6 +19,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("-g1","--giocatore_1", type=str,default='giocatore_1', help='Nome del giocatore 1')
 parser.add_argument("-g2", "--giocatore_2", type=str,default='giocatore_2', help='Nome del giocatore 2')
 parser.add_argument("-d","--dimensione", type=int, default=9, help='Dimensione della griglia')
+parser.add_argument('-m','--modalita', type=int, default=0, help='Modalità di gioco: 0 il turno di attacco si conclude solo in caso di mancato bersaglio; 1 si procede un turno alla volta ')
 args = parser.parse_args()
 
 
