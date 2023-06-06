@@ -66,10 +66,8 @@ print(griglia2)
 
 os.system('cls')
 # Inizia il gioco
-print("""Giocatori, inizia la fase di attacco! Preparate la vostra offensiva! 
-         Si procederà un turno per volta, scambiatevi il computer dopo ogni attaco.
-         Buona fortuna!
-""")
+print("""Giocatori, inizia la fase di attacco! Preparate la vostra offensiva!
+         \nBuona fortuna!""")
 
 time.sleep(7)
 os.system('cls')
