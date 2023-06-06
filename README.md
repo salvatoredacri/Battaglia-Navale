@@ -53,7 +53,25 @@ del vincitore quando tutte le navi di un giocatore sono
 state affondate.
 
 # ESECUZIONE
-- Per l'esecuzione del programma posizionarsi, tramite linea di comando, nella directory in cui è presente main.py
-- Eseguire il comando
+
+1) Assicurati di trovarti nella directory in cui è presente il file main.py.
+
+2) Esegui il seguente comando nella linea di comando:
+
+   python3 main.py -g1 nome_giocatore -g2 nome_giocatore2 -d dimensione_tavolo -m modalità_gioco
+  
+   N.B. Sostituisci nome_giocatore con il nome del primo giocatore e nome_giocatore2 con il nome del secondo giocatore. Inoltre, imposta dimensione_tavolo con la dimensione desiderata del campo da battaglia e 
+        Modalità_gioco con la modalità desiderata:
+           - Modalità 0: Il turno di attacco si conclude solo in caso di mancato bersaglio.
+           - Modalità 1: Durante la fase di attacco si procede un turno alla volta.
+           
+3) I giocatori devono posizionare a turno le navi nel proprio campo da battaglia.
+
+4) I giocatori passano alla fase di attacco fino al completamento del gioco.
+
+5) Il programma decreterà il vincitore
+
+Assicurati di avere Python 3 installato sul tuo sistema e che le dipendenze necessarie per il programma siano soddisfatte prima di eseguire il comando.
+
 
 
