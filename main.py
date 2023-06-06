@@ -16,6 +16,7 @@ print('Benvenuto')
 giocatore_1 = args.giocatore_1
 giocatore_2 = args.giocatore_2
 dimensione = args.dimensione
+modalita = args.modalita
 controllo_parser(args)
 
 
@@ -97,7 +98,7 @@ while not fine_gioco:
         
 
     # Esegui il turno di attacco
-    fine_gioco, griglia_colpi, griglia_combattimento= turno(griglia_combattimento, player[turno_giocatore], griglia_colpi, fine_gioco, lista_navi_avversario)
+    fine_gioco, griglia_colpi, griglia_combattimento= turno(griglia_combattimento, player[turno_giocatore], griglia_colpi, fine_gioco, lista_navi_avversario, modalita)
     
 
     
