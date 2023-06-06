@@ -13,11 +13,13 @@ def turno(griglia_combattimento, giocatore, griglia_colpi, fine_gioco, lista_nav
     - griglia_colpi: la griglia dei colpi effettuati dal giocatore corrente
     - fine_gioco: flag che indica se il gioco è terminato
     - lista_navi: la lista delle navi in gioco
+    - modalita: la modalità di gioco (0 o 1)
 
     Ritorno:
     - fine_gioco: flag che indica se il gioco è terminato
     - griglia_colpi: la griglia dei colpi effettuati dal giocatore corrente
     - griglia_combattimento: la griglia di gioco del giocatore avversario
+    
 
     """
     fine_turno = False
