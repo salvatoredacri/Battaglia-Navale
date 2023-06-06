@@ -1,47 +1,78 @@
 from griglia import  *
 from ship_class import Navi
 from gioco import turno, vittoria
-# from standards import lista_navi 
-# from standards import lista_navi, lista_navi_2
-from standards import lista_navi, lista_navi_2
+from standards import *
+import os
+import time
+
+
+os.system('cls')
+
 # from standards import lista_navi
+print('Benvenuto')
 
 
-# Creo i giocatori
-giocatore_1= str(input("Inserisci il nome del giocatore 1: "))
-giocatore_2 = str(input("Inserisci il nome del giocatore 2: "))
+# Assegna i valori degli argomenti alle variabili
+giocatore_1 = args.giocatore_1
+giocatore_2 = args.giocatore_2
+dimensione = args.dimensione
+controllo_parser(args)
 
 
-#Creo le griglie dei due giocatori
-dimensione = int(input("Inserisci la dimensione della griglia: "))   
-griglia_giocatore_1 = crea_griglia(dimensione)
-griglia_giocatore_2 = crea_griglia(dimensione)
+
+print("""Giocatori, preapate la vostra strategia! La partita sta per cominciare!
+    Fase di poszionamento delle navi, a turno ogni giocatore ha a disposizione 5 navi:
+    -Cacciotorpediniere
+    -Sottomarino
+    -Incrociatore
+    -Corazzata
+    -Portaerei""")
+
+time.sleep(10)
+os.system('cls')
+
+# #Creo le griglie dei due giocatori
+# dimensione = int(input("Inserisci la dimensione della griglia: "))   
+
 griglia_colpi_1= crea_griglia(dimensione)
 griglia_colpi_2= crea_griglia(dimensione)
-
+griglia_giocatore_1 = crea_griglia(dimensione)
+griglia_giocatore_2 = crea_griglia(dimensione)
 
 player=[giocatore_1, giocatore_2]
 
 
 
-
 # Giocatore 1 posiziona le tue navi!
 print(player[0],", è il tuo turno!" "\n Posiziona le tue navi!")
+stampa_griglia(griglia_giocatore_1,dimensione)
 griglia1 = posiziona_navi(griglia_giocatore_1, player[0], lista_navi)
 print(griglia1)
 
+
+os.system('cls')
 # Giocatore 1 ha finito di posizionare le navi. Passa al turno del Giocatore 2.
 input(f"Premi INVIO per passare al turno di {player[1]}")
 stampa_griglia(griglia_giocatore_2, dimensione)
 
 
+
 # # Giocatore 2 posiziona le tue navi!
 print(player[1],", è il tuo turno!" "\n Posiziona le tue navi!")
+
 griglia2 = posiziona_navi(griglia_giocatore_2, player[1], lista_navi_2)
 print(griglia2)
 
-
+os.system('cls')
 # Inizia il gioco
+print("""Giocatori, inizia la fase di attacco! Preparate la vostra offensiva! 
+         Si procederà un turno per volta, scambiatevi il computer dopo ogni attaco.
+         Buona fortuna!
+""")
+
+time.sleep(7)
+os.system('cls')
+
 fine_gioco = False
 turno_giocatore = 0  # Indice del giocatore di turno
 
@@ -81,4 +112,5 @@ while not fine_gioco:
 
 # # Fine del gioco, un giocatore ha vinto
 vincitore = player[turno_giocatore]
-print(f"{vincitore} ha vinto il gioco!")
+print(f"{vincitore} ha vinto il gioco! Complimenti!")
+print("\n Grazie per aver giocato")
