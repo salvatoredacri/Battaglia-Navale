@@ -2,7 +2,7 @@ from griglia import *
 import os
 import time
 
-def turno(griglia_combattimento, giocatore, griglia_colpi, fine_gioco, lista_navi): 
+def turno(griglia_combattimento, giocatore, griglia_colpi, fine_gioco, lista_navi,modalita): 
     
     """
     Esegue un turno di gioco per il giocatore corrente.
