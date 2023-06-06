@@ -34,18 +34,18 @@ def turno(griglia_combattimento, giocatore, griglia_colpi, fine_gioco, lista_nav
          colonna = colonna.upper()
          if colonna not in string.ascii_uppercase[:len(griglia_combattimento)]:
             print("Lettera non valida. Inserisci una lettera da A a", string.ascii_uppercase[:len(griglia_combattimento)])
-            time.spleep(3)
+            time.sleep(3)
             continue
         except ValueError:
          print("Inserisci una lettera valido")
-         time.spleep(3) 
+         time.sleep(3) 
          continue
 
         try:
          riga = int(input("Inserisci il numero della riga in cui vuoi sparare (es.1): ")) - 1
          if riga < 0 or riga > len(griglia_combattimento):
             print(f"Numero non valido. Inserisci nemero valido, da 1 a {len(griglia_combattimento)}")
-            time.spleep(3)
+            time.sleep(3)
             continue
         except ValueError:
          print('Inserisci un numero valido') 
@@ -58,7 +58,7 @@ def turno(griglia_combattimento, giocatore, griglia_colpi, fine_gioco, lista_nav
 
         if griglia_colpi[riga][colonna] != 0:
             print("Hai già sparato in questa posizione. Riprova.")
-            time.spleep(3)
+            time.sleep(3)
             continue
 
         colpo = False
