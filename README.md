@@ -51,3 +51,9 @@ del colpo e l'applicazione deve fornire il risultato: *mancato*/*colpito*/*affon
 - riconosciento della fine del gioco e proclamazione 
 del vincitore quando tutte le navi di un giocatore sono 
 state affondate.
+
+# ESECUZIONE
+- Per l'esecuzione del programma posizionarsi, tramite linea di comando, nella directory in cui è presente main.py
+- Eseguire il comando
+
+
