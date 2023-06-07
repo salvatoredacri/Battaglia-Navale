@@ -82,7 +82,7 @@ def turno(griglia_combattimento, giocatore, griglia_colpi, fine_gioco, lista_nav
              
               print("\nGriglia dei colpi:")
               stampa_griglia(griglia_colpi, len(griglia_colpi))
-              print('Puoi sarare ancora')
+              print('Puoi sparare ancora!')
               time.sleep(4)
 
         elif not colpo and modalita == 0:
