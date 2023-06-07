@@ -75,7 +75,7 @@ state affondate.
         Modalità_gioco con la modalità desiderata:
            - Modalità 0: Il turno di attacco si conclude solo in caso di mancato bersaglio.
            - Modalità 1: Durante la fase di attacco si procede un turno alla volta. 
-           
+
   esempio modalità personalizzatà:  
 
   ```python
@@ -86,12 +86,12 @@ state affondate.
   ```python
         python3 main.py 
    ```
-  Cosi facendo il programma inizierà con le seguenti assegnazioni:
-    - una nave per ogni tipo
-    - -g1 giocatore1
-    - -g2 giocatore2
-    - -d 9
-    - -m modalità 0
+Cosi facendo il programma inizierà con le seguenti assegnazioni:
+- una nave per ogni tipo
+- -g1 giocatore1
+- -g2 giocatore2
+- -d 9
+- -m modalità 0
 
 
 3) I giocatori devono posizionare a turno le navi nel proprio campo da battaglia.
