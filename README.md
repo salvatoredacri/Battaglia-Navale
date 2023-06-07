@@ -79,11 +79,11 @@ N.B. Sostituisci:
   - Modalità 1: Durante la fase di attacco si procede un turno alla volta.
 
 
-  Esempio modalità personalizzata:  
+Esempio modalità personalizzata:  
 
-  ```python
-        python3 main.py --cacciatorpediniere 1 --sottomarino 2 --incrociatore 1 --corazzata 1 --partaerei 1 -g1 Salvatore -g2 Alessandro -d 10 -m 0
-   ```
+```python
+      python3 main.py --cacciatorpediniere 1 --sottomarino 2 --incrociatore 1 --corazzata 1 --partaerei 1 -g1 Salvatore -g2 Alessandro -d 10 -m 0
+ ```
  In alternativa si può eseguire il programma in modalità dafault con il seguente comando nella linea di comando:
 
   ```python
