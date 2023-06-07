@@ -109,6 +109,7 @@ while not fine_gioco:
      
 
 # # Fine del gioco, un giocatore ha vinto
+os.system('cls')
 vincitore = player[turno_giocatore]
 print(f"{vincitore} ha vinto il gioco! Complimenti!")
 print("\n Grazie per aver giocato")
