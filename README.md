@@ -67,10 +67,17 @@ state affondate.
         python3 main.py --nome_nave quantità -g1 nome_giocatore -g2 nome_giocatore2 -d dimensione_tavolo -m modalità_gioco
   ```
 
-   N.B. Sostituisci nome_nave quantità con il nome e il numero di navi da voler selezionare, sostituisci nome_giocatore con il nome del primo giocatore e nome_giocatore2 con il nome del secondo giocatore. Inoltre, imposta dimensione_tavolo con la dimensione desiderata del campo da battaglia e 
-        Modalità_gioco con la modalità desiderata:
-           - Modalità 0: Il turno di attacco si conclude solo in caso di mancato bersaglio.
-           - Modalità 1: Durante la fase di attacco si procede un turno alla volta. 
+N.B. Sostituisci:
+- `nome_nave quantità` con il nome e il numero di navi da voler selezionare.
+- `nome_giocatore` con il nome del primo giocatore.
+- `nome_giocatore2` con il nome del secondo giocatore.
+- `dimensione_tavolo` con la dimensione desiderata del campo da battaglia.
+- `modalità_gioco` con la modalità desiderata:
+
+  Modalità di gioco:
+  - Modalità 0: Il turno di attacco si conclude solo in caso di mancato bersaglio.
+  - Modalità 1: Durante la fase di attacco si procede un turno alla volta.
+
 
   esempio modalità personalizzatà:  
 
