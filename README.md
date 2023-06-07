@@ -97,7 +97,7 @@ Cosi facendo il programma inizierà con le seguenti assegnazioni:
 - -m modalità 0
 
 
-3) I giocatori devono posizionare a turno le navi nel proprio campo da battaglia.
+4) I giocatori devono posizionare a turno le navi nel proprio campo da battaglia.
 
 5) I giocatori passano alla fase di attacco fino al completamento del gioco.
 
