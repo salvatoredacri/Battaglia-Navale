@@ -46,7 +46,7 @@ player=[giocatore_1, giocatore_2]
 # Giocatore 1 posiziona le tue navi!
 print(player[0],", è il tuo turno!" "\n Posiziona le tue navi!")
 stampa_griglia(griglia_giocatore_1,dimensione)
-griglia1 = posiziona_navi(griglia_giocatore_1, player[0], lista_navi)
+griglia1 = posiziona_navi(griglia_giocatore_1, player[0], lista_navi_1)
 print(griglia1)
 
 
@@ -89,7 +89,7 @@ while not fine_gioco:
         griglia_combattimento = griglia_giocatore_1
         griglia_colpi = griglia_colpi_2
         avversario = player[0]
-        lista_navi_avversario = lista_navi
+        lista_navi_avversario = lista_navi_1
         
         
         
