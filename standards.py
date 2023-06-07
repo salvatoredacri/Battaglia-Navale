@@ -13,16 +13,16 @@ def check_parser(args):
 
 
 def check_arguments(args):
-    if not 7 < args.dimensione < 15:
+    if not 7 <= args.dimensione <= 20:
         print('\u001b[31mDimensione errata\033[0m')
         raise ValueError
-    if not 0 <= args.portaerei <= 5:
+    if not 0 <= args.portaerei <= 3:
         print('\u001b[31mNumero invalido di portaerei\033[0m')
         raise ValueError
-    if not 0<= args.corazzata <= 5:
+    if not 0<= args.corazzata <= 3:
         print('\u001b[31mNumero invalido di corazzata\033[0m')
         raise ValueError
-    if not 0<= args.incrociatore <=5:
+    if not 0<= args.incrociatore <=4:
         print('\u001b[31mNumero invalido di incrociatore\033[0m')
         raise ValueError
     if not 0<= args.sottomarino<= 5:
