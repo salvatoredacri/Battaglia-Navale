@@ -174,16 +174,7 @@ def posiziona_navi(griglia, giocatore, lista_navi):
                     break
                 except ValueError as e:
                     print(str(e))
-            
-            while True:
-                try:
-                    riga = int(input("Inserisci la riga in cui inserire la nave: "))
-                    if riga < 1 or riga > len(griglia):
-                        raise ValueError(f"Riga non valida. Inserisci un numero da 1 a {len(griglia)}. Riprova.")
-                    break
-                except ValueError as e:
-                    print(str(e))
-            
+           
             colonne_valide = string.ascii_uppercase[:len(griglia)]
             
             while True:
@@ -194,6 +185,16 @@ def posiziona_navi(griglia, giocatore, lista_navi):
                     break
                 except ValueError as e:
                     print(str(e))
+           
+            while True:
+                try:
+                    riga = int(input("Inserisci la riga in cui inserire la nave: "))
+                    if riga < 1 or riga > len(griglia):
+                        raise ValueError(f"Riga non valida. Inserisci un numero da 1 a {len(griglia)}. Riprova.")
+                    break
+                except ValueError as e:
+                    print(str(e))
+            
             
             result = inserisci_nave(nave, orientamento, riga - 1, colonne_valide.index(colonna), griglia)
             
@@ -205,5 +206,7 @@ def posiziona_navi(griglia, giocatore, lista_navi):
                 print("\n\nEcco la tua griglia con le navi posizionate:")
     
     return stampa_griglia(griglia_giocatore, len(griglia_giocatore))
+    
+    
 
 
