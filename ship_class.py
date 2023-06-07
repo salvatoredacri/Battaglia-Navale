@@ -1,6 +1,6 @@
 from griglia import *
 class Navi:
-    def __init__(self, nome, lunghezza, coordinate=None): 
+    def __init__(self, nome, lunghezza, coordinate=None, quantita=None): 
         """
         Inizializza un oggetto Navi con il nome, la lunghezza e le coordinate specificate.
 
@@ -18,6 +18,7 @@ class Navi:
         """
         self.nome = nome
         self.lunghezza = lunghezza
+        self.quantita = quantita
           # Lista delle posizioni occupate dalla nave
         
         self.colpi = 0  # Numero di volte che la nave è stata colpita
