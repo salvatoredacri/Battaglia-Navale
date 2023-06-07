@@ -180,6 +180,7 @@ def posiziona_navi(griglia, giocatore, lista_navi):
             while True:
                 try:
                     colonna = input("Inserisci la colonna in cui inserire la nave: ")
+                    colonna = colonna.upper()
                     if colonna not in colonne_valide:
                         raise ValueError(f"Colonna non valida. Inserisci una lettera da A a {colonne_valide[-1]}. Riprova.")
                     break
