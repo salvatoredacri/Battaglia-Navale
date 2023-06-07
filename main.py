@@ -13,24 +13,23 @@ print('Benvenuto')
 
 
 # Assegna i valori degli argomenti alle variabili
+args=initialize_parser(navi_disponibili)
+lista_navi_1 = crea_lista_navi(args, navi_disponibili)
+lista_navi_2 = crea_lista_navi(args, navi_disponibili)
+
+
 giocatore_1 = args.giocatore_1
 giocatore_2 = args.giocatore_2
 dimensione = args.dimensione
-modalita = args.modalita
-controllo_parser(args)
+modalita =args.modalita
+check_parser(args)
 
-
-
-print("""Giocatori, preapate la vostra strategia! La partita sta per cominciare!
-    Fase di poszionamento delle navi, a turno ogni giocatore ha a disposizione 5 navi:
-    -Cacciotorpediniere
-    -Sottomarino
-    -Incrociatore
-    -Corazzata
-    -Portaerei""")
-
-time.sleep(10)
+stampa_messaggio_iniziale(lista_navi_1)
+time.sleep(5)
 os.system('cls')
+
+
+
 
 # #Creo le griglie dei due giocatori
 # dimensione = int(input("Inserisci la dimensione della griglia: "))   
