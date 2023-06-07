@@ -59,25 +59,52 @@ state affondate.
   ```python
        cd path/to/directory 
   ```
-
-2) Esegui il seguente comando nella linea di comando:
+2) Esegui il seguente comando nella linea di comando per  una descrizione dettagliata delle opzioni, degli argomenti e delle funzionalità del programma programma.
 
   ```python
-        python3 main.py -g1 nome_giocatore -g2 nome_giocatore2 -d dimensione_tavolo -m modalità_gioco
+        python3 main.py --help
   ```
 
-   N.B. Sostituisci nome_giocatore con il nome del primo giocatore e nome_giocatore2 con il nome del secondo giocatore. Inoltre, imposta dimensione_tavolo con la dimensione desiderata del campo da battaglia e 
+3) Esegui il seguente comando nella linea di comando per l'inizializzazione del gioco:
+
+  ```python
+        python3 main.py --nome_nave quantità -g1 nome_giocatore -g2 nome_giocatore2 -d dimensione_tavolo -m modalità_gioco
+  ```
+
+   N.B. Sostituisci nome_nave quantità con il nome e il numero di navi da voler selezionare, sostituisci nome_giocatore con il nome del primo giocatore e nome_giocatore2 con il nome del secondo giocatore. Inoltre, imposta dimensione_tavolo con la dimensione desiderata del campo da battaglia e 
         Modalità_gioco con la modalità desiderata:
            - Modalità 0: Il turno di attacco si conclude solo in caso di mancato bersaglio.
-           - Modalità 1: Durante la fase di attacco si procede un turno alla volta.
+           - Modalità 1: Durante la fase di attacco si procede un turno alla volta. 
            
+  esempio modalità personalizzatà:  
+
+  ```python
+        python3 main.py --cacciatorpediniere 1 --sottomarino 2 --incrociatore 1 --corazzata 1 --partaerei 1 -g1 Salvatore -g2 Alessandro -d 10 -m 0
+   ```
+ In alternativa si può eseguire il programma in modalità dafault con il seguente comando nella linea di comando:
+
+  ```python
+        python3 main.py 
+   ```
+  Cosi facendo il programma inizierà con le seguenti assegnazioni:
+    - una nave per ogni tipo
+    - -g1 giocatore1
+    - -g2 giocatore2
+    - -d 9
+    - -m modalità 0
+
+
 3) I giocatori devono posizionare a turno le navi nel proprio campo da battaglia.
 
-4) I giocatori passano alla fase di attacco fino al completamento del gioco.
+5) I giocatori passano alla fase di attacco fino al completamento del gioco.
 
-5) Il programma decreterà il vincitore
+6) Il programma decreterà il vincitore.
 
 Assicurati di avere Python 3 installato sul tuo sistema e che le dipendenze necessarie per il programma siano soddisfatte prima di eseguire il comando.
 
+# Codice sviluppato da:
+
+- Alessandro Frisenda
+- Salvatore D'Acri
 
 
