@@ -52,7 +52,7 @@ print(griglia1)
 
 os.system('cls')
 # Giocatore 1 ha finito di posizionare le navi. Passa al turno del Giocatore 2.
-input(f"Premi INVIO per passare al turno di {player[1]}")
+input(f"Premi INVIO e passa il computer per passare al turno di {player[1]}")
 stampa_griglia(griglia_giocatore_2, dimensione)
 
 
@@ -103,7 +103,7 @@ while not fine_gioco:
     # fine_gioco = vittoria(lista_navi_avversario)
      
     if not fine_gioco:
-        input(f"Premi INVIO per passare al turno di {player[1-turno_giocatore]}")
+        input(f"Premi INVIO e passa il computer per passare al turno di {player[1-turno_giocatore]}")
         turno_giocatore = 1 - turno_giocatore
         
      
