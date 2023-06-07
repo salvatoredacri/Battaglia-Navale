@@ -97,7 +97,7 @@ def turno(griglia_combattimento, giocatore, griglia_colpi, fine_gioco, lista_nav
             elif colpo and modalita == 1:
                fine_turno = True
       
-         if fine_gioco:
+        if fine_gioco:
             break
         
         
