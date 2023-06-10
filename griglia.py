@@ -21,7 +21,8 @@ def crea_griglia(dimensione):
 
 
 
-def stampa_griglia(griglia, dimensione):
+def stampa_griglia(griglia):
+  dimensione = len(griglia)
     print("\n  " + " ".join(chr(ord('A') + c) for c in range(dimensione)))
     for r in range(dimensione):
         riga = [str(c) for c in griglia[r]]
