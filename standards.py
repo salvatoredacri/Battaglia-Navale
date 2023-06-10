@@ -3,6 +3,7 @@ from griglia import *
 import copy
 import argparse
 import sys
+import platform
 
 
 def check_parser(args):
@@ -81,3 +82,12 @@ def stampa_messaggio_iniziale(lista_navi):
     for nome_nave in navi_selezionate:
      quantita_nave = sum(nave.quantita for nave in lista_navi if nave.nome == nome_nave)
      print(f"{nome_nave}: {quantita_nave}")
+        
+        
+
+def clear_console():
+    # Controllo del sistema operativo
+    if os.name == 'nt':  # Windows
+        os.system('cls')
+    else:
+      os.system('clear') # Unix/Linux/Mac
