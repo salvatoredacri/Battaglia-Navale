@@ -107,7 +107,7 @@ Assicurati di avere Python 3 installato sul tuo sistema e che le dipendenze nece
 
 # Codice sviluppato da:
 
-- Alessandro Frisenda
-- Salvatore D'Acri
+- Alessandro Frisenda.
+- Salvatore D'Acri.
 
 
