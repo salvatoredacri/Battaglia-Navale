@@ -45,7 +45,7 @@ player=[giocatore_1, giocatore_2]
 
 # Giocatore 1 posiziona le tue navi!
 print(player[0],", è il tuo turno!" "\n Posiziona le tue navi!")
-stampa_griglia(griglia_giocatore_1,dimensione)
+stampa_griglia(griglia_giocatore_1)
 griglia1 = posiziona_navi(griglia_giocatore_1, player[0], lista_navi_1)
 print(griglia1)
 
@@ -53,7 +53,7 @@ print(griglia1)
 os.system('cls')
 # Giocatore 1 ha finito di posizionare le navi. Passa al turno del Giocatore 2.
 input(f"Premi INVIO e passa il computer per passare al turno di {player[1]}")
-stampa_griglia(griglia_giocatore_2, dimensione)
+stampa_griglia(griglia_giocatore_2)
 
 
 
