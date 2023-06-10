@@ -6,7 +6,7 @@ import os
 import time
 
 
-os.system('cls')
+clear_console()
 
 # from standards import lista_navi
 print('Benvenuto')
@@ -26,7 +26,7 @@ check_parser(args)
 
 stampa_messaggio_iniziale(lista_navi_1)
 time.sleep(5)
-os.system('cls')
+clear_console()
 
 
 
@@ -50,7 +50,7 @@ griglia1 = posiziona_navi(griglia_giocatore_1, player[0], lista_navi_1)
 print(griglia1)
 
 
-os.system('cls')
+clear_console()
 # Giocatore 1 ha finito di posizionare le navi. Passa al turno del Giocatore 2.
 input(f"Premi INVIO e passa il computer per passare al turno di {player[1]}")
 stampa_griglia(griglia_giocatore_2)
@@ -63,13 +63,13 @@ print(player[1],", è il tuo turno!" "\n Posiziona le tue navi!")
 griglia2 = posiziona_navi(griglia_giocatore_2, player[1], lista_navi_2)
 print(griglia2)
 
-os.system('cls')
+clear_console()
 # Inizia il gioco
 print("""Giocatori, inizia la fase di attacco! Preparate la vostra offensiva!
          \nBuona fortuna!""")
 
 time.sleep(7)
-os.system('cls')
+clear_console()
 
 fine_gioco = False
 turno_giocatore = 0  # Indice del giocatore di turno
@@ -109,7 +109,7 @@ while not fine_gioco:
      
 
 # # Fine del gioco, un giocatore ha vinto
-os.system('cls')
+clear_console()
 vincitore = player[turno_giocatore]
 print(f"{vincitore} ha vinto il gioco! Complimenti!")
 print("\n Grazie per aver giocato")
