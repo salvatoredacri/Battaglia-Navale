@@ -7,13 +7,13 @@ class Navi:
         Argomenti:
         - nome: Il nome della nave.
         - lunghezza: La lunghezza della nave.
-        - coordinate: Le coordinate occupate dalla nave. (Default: None)
+        - coordinate: Una lista delle coordinate occupate dalla nave. (Default: None)
         - quantita: quantità dei tipi di nave. (Default: None)
 
         Attributi:
         - nome: Il nome della nave.
         - lunghezza: La lunghezza della nave.
-        - coordinate: Le coordinate occupate dalla nave.
+        - coordinate: Una lista delle coordinate occupate dalla nave.
         - colpi: Il numero di volte che la nave è stata colpita.
         - quantita: quantità dei tipi di nave.
 
