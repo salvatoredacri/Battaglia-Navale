@@ -194,7 +194,7 @@ def posiziona_navi(griglia, giocatore, lista_navi):
                      result = inserisci_nave(nave, orientamento, riga - 1, colonne_valide.index(colonna), griglia)
                      if result != False:
                          griglia_giocatore, coordinate = result
-                         nave.coordinate = coordinate
+                         nave.set_coordinate(coordinate)
                          clear_console()
                          stampa_griglia(griglia_giocatore)
                          print("\n\nEcco la tua griglia con le navi posizionate:")
