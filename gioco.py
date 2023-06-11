@@ -1,6 +1,7 @@
 from griglia import *
 import os
 import time
+from standards import *
 
 
 def turno(griglia_combattimento, giocatore, griglia_colpi, fine_gioco, lista_navi, modalita): 
@@ -14,6 +15,7 @@ def turno(griglia_combattimento, giocatore, griglia_colpi, fine_gioco, lista_nav
     - griglia_colpi: la griglia dei colpi effettuati dal giocatore corrente
     - fine_gioco: flag che indica se il gioco è terminato
     - lista_navi: la lista delle navi in gioco
+    - modalita: la modalità di gioco (0 o 1)
 
     Ritorno:
     - fine_gioco: flag che indica se il gioco è terminato
@@ -25,7 +27,7 @@ def turno(griglia_combattimento, giocatore, griglia_colpi, fine_gioco, lista_nav
     
 
     while not fine_turno:
-        os.system('cls')
+        clear_console()
         print(giocatore, "Ecco la tua griglia dei colpi effettuati")
         stampa_griglia(griglia_colpi)
         print(giocatore, "inserisci le coordinate dove vuoi sparare")
@@ -36,6 +38,12 @@ def turno(griglia_combattimento, giocatore, griglia_colpi, fine_gioco, lista_nav
        
         while True:
             coordinate_colpo = input('Inserisci le coordinate di dove vuoi sparare (es. A1):')
+            if not coordinate_colpo:
+                     print('Inserire un valore corretto (es. A1)')
+                     continue
+            if not re.match("^[A-Za-z][0-9]+$", coordinate_colpo):
+                     print("Errore: caratteri speciali non consentiti.")
+                     continue
             colonna = coordinate_colpo[0].upper()
             
 
@@ -46,44 +54,44 @@ def turno(griglia_combattimento, giocatore, griglia_colpi, fine_gioco, lista_nav
                      continue
             break
             
-        colonna = colonne_valide.index(colonne_valide) 
+        colonna = colonne_valide.index(colonna) 
             
         if griglia_colpi[riga][colonna] != 0:
          print("Hai già sparato in questa posizione. Riprova.")
          continue
 
-        hit = False
+        colpo = False
         
         for nave in lista_navi:
-            if nave.is_hit(riga,colonna):
+            if nave.colpita(riga,colonna):
                 print("Hai colpito una nave!")
-                hit = True
+                colpo = True
                 griglia_colpi[riga][colonna] = "c"
                 
-                if nave.is_sunk():
+                if nave.affondata():
                     print("Hai affondato una nave!",nave.nome)
-                    if all(n.is_sunk() for n in lista_navi):
+                    if all(n.affondata() for n in lista_navi):
                         fine_gioco = vittoria(lista_navi)  # Tutte le navi sono affondate, fine del gioco
                         break
        
        
-        if hit and modalita == 0:
+        if colpo and modalita == 0:
              
               print("\nGriglia dei colpi:")
               stampa_griglia(griglia_colpi)
               print('Puoi sparare ancora')
               time.sleep(4)
 
-        elif not hit and modalita == 0:
+        elif not colpo and modalita == 0:
               print("Hai sparato in acqua.")
               griglia_colpi[riga][colonna] = "-"
               fine_turno = True
         else:
-            if not hit and modalita == 1:
+            if not colpo and modalita == 1:
              print("Hai sparato in acqua.")
              griglia_colpi[riga][colonna] = "-"
              fine_turno = True
-            elif hit and modalita == 1:
+            elif colpo and modalita == 1:
                fine_turno = True
                
         
