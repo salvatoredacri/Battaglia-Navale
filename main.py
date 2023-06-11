@@ -1,14 +1,14 @@
 from griglia import  *
-from ship_class import Navi
-from gioco import turno, vittoria
+from gioco import turno
 from standards import *
-import os
+
 import time
+
 
 
 clear_console()
 
-# from standards import lista_navi
+
 print('Benvenuto')
 
 
@@ -31,8 +31,8 @@ clear_console()
 
 
 
-# #Creo le griglie dei due giocatori
-# dimensione = int(input("Inserisci la dimensione della griglia: "))   
+#Creo le griglie dei due giocatori
+
 
 griglia_colpi_1= crea_griglia(dimensione)
 griglia_colpi_2= crea_griglia(dimensione)
@@ -99,8 +99,8 @@ while not fine_gioco:
     
 
     
-    # # Controlla la vittoria del giocatore
-    # fine_gioco = vittoria(lista_navi_avversario)
+    # Controlla la vittoria del giocatore
+    
      
     if not fine_gioco:
         input(f"Premi INVIO e passa il computer per passare al turno di {player[1-turno_giocatore]}")
@@ -108,7 +108,7 @@ while not fine_gioco:
         
      
 
-# # Fine del gioco, un giocatore ha vinto
+# Fine del gioco, un giocatore ha vinto
 clear_console()
 vincitore = player[turno_giocatore]
 print(f"{vincitore} ha vinto il gioco! Complimenti!")

@@ -8,27 +8,28 @@ class Navi:
         - nome: Il nome della nave.
         - lunghezza: La lunghezza della nave.
         - coordinate: Le coordinate occupate dalla nave. (Default: None)
+        - quantita: quantità dei tipi di nave. (Default: None)
 
         Attributi:
         - nome: Il nome della nave.
         - lunghezza: La lunghezza della nave.
         - coordinate: Le coordinate occupate dalla nave.
         - colpi: Il numero di volte che la nave è stata colpita.
+        - quantita: quantità dei tipi di nave.
 
         """
         self.nome = nome
         self.lunghezza = lunghezza
         self.quantita = quantita
-          # Lista delle posizioni occupate dalla nave
         
-        self.colpi = 0  # Numero di volte che la nave è stata colpita
-        # self.affondata = False  # Indica se la nave è stata affondata 
+        
+        self.colpi = 0  
         if coordinate is None:
          self.coordinate = []
         else:
             self.coordinate = coordinate
     
-    def controlla_colpo(self, riga, colonna, griglia): 
+    def controlla_colpo(self, riga, colonna): 
         """
         Verifica se la nave è stata colpita in una specifica posizione.
 
@@ -41,28 +42,28 @@ class Navi:
         - True se la nave è stata colpita nella posizione specificata, False altrimenti.
 
         """
-        posizione_colpita = griglia[riga][colonna]
+        
       
         
-        if posizione_colpita == 1 and (riga, colonna) in self.coordinate:
+        if (riga, colonna) in self.coordinate:
              return True
         return False
     
-    def colpita(self, riga, colonna, griglia):    
+    def colpita(self, riga, colonna):    
         """
         Registra un colpo sulla nave nella posizione specificata.
 
         Argomenti:
         - riga: La riga in cui si è verificato il colpo.
         - colonna: La colonna in cui si è verificato il colpo.
-        - griglia: La griglia del giocatore in cui si trova la nave.
+        
 
         Valore di ritorno:
         - True se la nave è stata colpita nella posizione specificata, False altrimenti.
 
         """
         
-        if self.controlla_colpo(riga,colonna,griglia):
+        if self.controlla_colpo(riga,colonna):
             self.coordinate.remove((riga,colonna))
             self.colpi += 1
             return True

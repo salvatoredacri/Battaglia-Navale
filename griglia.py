@@ -1,6 +1,8 @@
 
 import string
 import os
+from standards import *
+import re
 
 
 def crea_griglia(dimensione):
@@ -15,17 +17,20 @@ def crea_griglia(dimensione):
 
     """
   griglia = [[0] * dimensione for _ in range(dimensione)]
-#   stampa_griglia(griglia, dimensione)
+
   return griglia
 
 
 
 
-def stampa_griglia(griglia):
-  dimensione = len(griglia)
+def stampa_griglia(griglia): #stampa la griglia di gioco a video
+    dimensione = len(griglia)
+    #stampa header della griglia con le lettere corrispondenti nelle colonne
     print("\n  " + " ".join(chr(ord('A') + c) for c in range(dimensione)))
     for r in range(dimensione):
+        #converte i valori della riga in stringhe
         riga = [str(c) for c in griglia[r]]
+        #stampa un valore crestente alla riga in base alla dimensione
         print(str(r + 1) + " " + " ".join(riga))
     print()
 
@@ -45,11 +50,12 @@ def puo_inserire_nave(nave, orientamento, riga, colonna, griglia):
     - True se è possibile inserire la nave nella posizione specificata, False altrimenti
 
     """
-    if orientamento == "orizzontale":
-        # Controllo se entra
+    if orientamento == "orizzontale" or orientamento == "o":
+        # Controllo se la nave entra nella griglia considerando la sua lunghezza
         if colonna + nave.lunghezza > len(griglia[0]):
             print("La nave non entra in questa posizione. Riprova")
             return False
+        # Itero attraverso la lunghezza della nave
         for i in range(nave.lunghezza):
             # Controllo che non sia sopra un'altra nave
             if griglia[riga][colonna + i] != 0:
@@ -75,31 +81,34 @@ def puo_inserire_nave(nave, orientamento, riga, colonna, griglia):
                 print("c'è una nave nelle vicinanze di questa posizione")
                 return False
             
-    elif orientamento == "verticale":
-        # Controllo se entra
+    elif orientamento == "verticale" or orientamento == "v":
+        # Controllo se la nave entra nella griglia considerando la sua lunghezza
         if riga + nave.lunghezza > len(griglia[0]):
             print("La nave non entra in questa posizione")
             return False
+        # Itero attraverso la lunghezza della nave
         for i in range(nave.lunghezza):
           # controllo che non sia sopra un'altra nave
             if griglia[riga + i][colonna] != 0:
                 print("In queste coordinate è già presente un'altra nave. Riprova")
                 return False
             
-           # 
+            # Controllo che sopra non abbia niente se non mi trovo sulla prima colonna
             if colonna > 0 and griglia[riga + i][colonna - 1] != 0:
                 print("c'è una nave nelle vicinanze di questa posizione")
                 return False 
             
-            #
+            # Controllo che non ci sia una nave sotto, a meno che mi trovi sull'ultima colonna
             if colonna < len(griglia) - 1 and griglia[riga + i][colonna + 1] != 0:
                 print("c'è una nave nelle vicinanze di questa posizione")
                 return False
-      
+            
+            # Controllo che non ci sia una nave a sinistra, a meno che mi trovi sulla prima riga
             if i > 0 and griglia[riga + i - 1][colonna] != 0:
                 print("c'è una nave nelle vicinanze di questa posizione")
                 return False
-      
+            
+            # Controllo che non ci sia una nave a destra se non mi trovo sull'ultima riga
             if i < nave.lunghezza - 1 and griglia[riga + i + 1][colonna] != 0:
                 print("c'è una nave nelle vicinanze di questa posizione")
                 return False
@@ -129,17 +138,15 @@ def inserisci_nave(nave, orientamento, riga, colonna, griglia):
     """
     if puo_inserire_nave(nave, orientamento, riga, colonna, griglia):
         coordinate =[]
-        if orientamento == "orizzontale":
+        if orientamento == "orizzontale" or orientamento == "o":
             for i in range(nave.lunghezza):
                 griglia[riga][colonna + i] = 1
                 coordinate.append((riga,colonna+i))
-        elif orientamento == "verticale":
+        elif orientamento == "verticale" or orientamento == "v":
             for i in range(nave.lunghezza):
                 griglia[riga + i][colonna] = 1
                 coordinate.append((riga+i,colonna))
         print("\nNave inserita correttamente:")
-        # nave.coordinate = coordinate
-        # print(coordinate)
         return griglia, coordinate
     else:
         return False
@@ -170,6 +177,12 @@ def posiziona_navi(griglia, giocatore, lista_navi):
             colonne_valide = string.ascii_uppercase[:len(griglia)]    
             while True:
                  posizione = input("Inserisci le coordinate della nave (es. A1): ")
+                 if not posizione:
+                     print('Inserire un valore corretto (es. A1)')
+                     continue
+                 if not re.match("^[A-Za-z][0-9]+$", posizione):
+                     print("Errore: caratteri speciali non consentiti.")
+                     continue
                  colonna = posizione[0].upper()
                  riga = int(posizione[1:])
                  if colonna not in colonne_valide or riga < 1 or riga > len(griglia):
@@ -182,7 +195,7 @@ def posiziona_navi(griglia, giocatore, lista_navi):
                      if result != False:
                          griglia_giocatore, coordinate = result
                          nave.coordinate = coordinate
-                         os.system('cls')
+                         clear_console()
                          stampa_griglia(griglia_giocatore)
                          print("\n\nEcco la tua griglia con le navi posizionate:")
                          break
