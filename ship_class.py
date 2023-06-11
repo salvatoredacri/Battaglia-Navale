@@ -82,6 +82,17 @@ class Navi:
             return True
         else:
             return False
+        
+        
+    def set_coordinate(self, coordinate):
+        """
+        Imposta le coordinate della nave con un valore specifico.
+
+        Argomenti:
+        - coordinate: Le nuove coordinate della nave da assegnare.
+
+        """
+        self.coordinate = coordinate    
     
     
                      
