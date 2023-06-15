@@ -151,11 +151,64 @@ def inserisci_nave(nave, orientamento, riga, colonna, griglia):
     else:
         return False
                      
-  
+
 
 
 
  
+""" Versione con value error
+def posiziona_navi(griglia, giocatore, lista_navi):
+
+    Posiziona le navi nella griglia del giocatore.
+
+    Argomenti:
+    - griglia: la griglia di gioco del giocatore
+    - giocatore: il nome del giocatore corrente
+    - lista_navi: la lista delle navi da posizionare
+
+    Valore di ritorno:
+    - La griglia di gioco del giocatore con le navi posizionate
+
+    
+    for nave in lista_navi:
+        for _ in range(nave.quantita):
+            print(f"{giocatore}, inserisci la nave: {nave.nome} di lunghezza: {nave.lunghezza}")
+            
+            colonne_valide = string.ascii_uppercase[:len(griglia)]    
+            while True:
+                try:
+                    posizione = input("Inserisci le coordinate della nave (es. A1): ")
+                    if not posizione:
+                        raise ValueError("Inserire un valore corretto (es. A1)")
+                    if not re.match("^[A-Za-z][0-9]+$", posizione):
+                        raise ValueError("Errore: caratteri speciali non consentiti.")
+                    colonna = posizione[0].upper()
+                    riga = int(posizione[1:])
+                    if colonna not in colonne_valide or riga < 1 or riga > len(griglia):
+                        raise ValueError("Coordinate non valide. Riprova.")
+
+                    orientamento = input("Inserisci l'orientamento della nave ('o' per orizzontale, 'v' per verticale): ")
+                    orientamento = orientamento.lower()
+                    if orientamento != 'o' and orientamento != 'v':
+                        raise ValueError("Orientamento non valido. Riprova.")
+
+                    result = inserisci_nave(nave, orientamento, riga - 1, colonne_valide.index(colonna), griglia)
+                    if result != False:
+                        griglia_giocatore, coordinate = result
+                        nave.set_coordinate(coordinate)
+                        clear_console()
+                        stampa_griglia(griglia_giocatore)
+                        print("\n\nEcco la tua griglia con le navi posizionate:")
+                        break
+
+                except ValueError as e:
+                    print(e)
+    
+    return stampa_griglia(griglia_giocatore)
+    
+"""
+
+
 
 def posiziona_navi(griglia, giocatore, lista_navi):
     """
@@ -170,6 +223,57 @@ def posiziona_navi(griglia, giocatore, lista_navi):
     - La griglia di gioco del giocatore con le navi posizionate
 
     """
+    for nave in lista_navi:
+        for _ in range(nave.quantita):
+            print(f"{giocatore}, inserisci la nave: {nave.nome} di lunghezza: {nave.lunghezza}")
+            
+            colonne_valide = string.ascii_uppercase[:len(griglia)]    
+            while True:
+                posizione = input("Inserisci le coordinate della nave (es. A1): ")
+                if not posizione:
+                    print("Inserire un valore corretto (es. A1)")
+                    continue
+                if not re.match("^[A-Za-z][0-9]+$", posizione):
+                    print("Errore: caratteri speciali non consentiti.")
+                    continue
+                colonna = posizione[0].upper()
+                riga = int(posizione[1:])
+                if colonna not in colonne_valide or riga < 1 or riga > len(griglia):
+                    print("Coordinate non valide. Riprova.")
+                    continue
+
+                orientamento = input("Inserisci l'orientamento della nave ('o' per orizzontale, 'v' per verticale): ")
+                orientamento = orientamento.lower()
+                if orientamento != 'o' and orientamento != 'v':
+                    print("Orientamento non valido. Riprova.")
+                    continue
+
+                result = inserisci_nave(nave, orientamento, riga - 1, colonne_valide.index(colonna), griglia)
+                if result != False:
+                    griglia_giocatore, coordinate = result
+                    nave.set_coordinate(coordinate)
+                    clear_console()
+                    stampa_griglia(griglia_giocatore)
+                    print("\n\nEcco la tua griglia con le navi posizionate:")
+                    break
+    
+    return stampa_griglia(griglia_giocatore)
+
+
+"""versione value error e continue
+def posiziona_navi(griglia, giocatore, lista_navi):
+    
+    Posiziona le navi nella griglia del giocatore.
+
+    Argomenti:
+    - griglia: la griglia di gioco del giocatore
+    - giocatore: il nome del giocatore corrente
+    - lista_navi: la lista delle navi da posizionare
+
+    Valore di ritorno:
+    - La griglia di gioco del giocatore con le navi posizionate
+
+    
     for nave in lista_navi:
         for _ in range(nave.quantita):
             print(f"{giocatore}, inserisci la nave: {nave.nome} di lunghezza: {nave.lunghezza}")
@@ -203,8 +307,4 @@ def posiziona_navi(griglia, giocatore, lista_navi):
                   print(e)
                  
 
-    return stampa_griglia(griglia_giocatore)
-    
-    
-
-
+    return stampa_griglia(griglia_giocatore)"""

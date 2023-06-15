@@ -68,7 +68,7 @@ clear_console()
 print("""Giocatori, inizia la fase di attacco! Preparate la vostra offensiva!
          \nBuona fortuna!""")
 
-time.sleep(7)
+time.sleep(5)
 clear_console()
 
 fine_gioco = False
