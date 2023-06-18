@@ -4,7 +4,7 @@ import time
 from standards import *
 
 
-def turno(griglia_combattimento, giocatore, griglia_colpi, fine_gioco, lista_navi, modalita): 
+def turno(griglia_combattimento, giocatore, griglia_colpi, fine_gioco, navi_posizionate, modalita): 
     
     """
     Esegue un turno di gioco per il giocatore corrente.
@@ -14,7 +14,7 @@ def turno(griglia_combattimento, giocatore, griglia_colpi, fine_gioco, lista_nav
     - giocatore: il nome del giocatore corrente
     - griglia_colpi: la griglia dei colpi effettuati dal giocatore corrente
     - fine_gioco: flag che indica se il gioco è terminato
-    - lista_navi: la lista delle navi in gioco
+    - navi_posizionate: la lista degli oggetti nave posizionate sulla griglia di gioco
     - modalita: la modalità di gioco (0 o 1)
 
     Ritorno:
@@ -58,11 +58,12 @@ def turno(griglia_combattimento, giocatore, griglia_colpi, fine_gioco, lista_nav
             
         if griglia_colpi[riga][colonna] != 0:
          print("Hai già sparato in questa posizione. Riprova.")
+         time.sleep(2)
          continue
 
         colpo = False
         
-        for nave in lista_navi:
+        for nave in navi_posizionate:
             if nave.colpita(riga,colonna):
                 print("Hai colpito una nave!")
                 colpo = True
@@ -70,8 +71,8 @@ def turno(griglia_combattimento, giocatore, griglia_colpi, fine_gioco, lista_nav
                 
                 if nave.affondata():
                     print("Hai affondato una nave!",nave.nome)
-                    if all(n.affondata() for n in lista_navi):
-                        fine_gioco = vittoria(lista_navi)  # Tutte le navi sono affondate, fine del gioco
+                    if all(n.affondata() for n in navi_posizionate):
+                        fine_gioco = vittoria(navi_posizionate)  # Tutte le navi sono affondate, fine del gioco
                         break
        
        
@@ -103,17 +104,17 @@ def turno(griglia_combattimento, giocatore, griglia_colpi, fine_gioco, lista_nav
 
     return fine_gioco, griglia_colpi, griglia_combattimento
 
-def vittoria(lista_navi): 
+def vittoria(navi_posizionate): 
     """
     Determina se tutte le navi nella lista sono state affondate.
 
     Argomenti:
-    - lista_navi: Una lista delle navi nel gioco.
+    - nave_posizionate: La lista delle navi posizionate nella griglia di gioco.
 
     Valore di ritorno:
     - True se tutte le navi sono state affondate, False altrimenti.
     """
-    for nave in lista_navi:
+    for nave in navi_posizionate:
         if not nave.affondata():
             return False
     return True
