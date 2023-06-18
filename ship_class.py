@@ -1,29 +1,37 @@
-from griglia import *
+
+
 class Navi:
-    def __init__(self, nome, lunghezza, coordinate=None, quantita=None): 
+    def __init__(self, nome, lunghezza, orientamento, riga_iniz, colonna_iniz, coordinate=None): 
         """
-        Inizializza un oggetto Navi con il nome, la lunghezza e le coordinate specificate.
+        Inizializza un oggetto Navi con il nome, la lunghezza, l'orientamento, le posizioni di partenza e le coordinate specificate.
 
         Argomenti:
         - nome: Il nome della nave.
         - lunghezza: La lunghezza della nave.
+        - orientamento: L'orientamento della nave (orizzontale o verticale)
+        - riga_iniz: La riga di partenza per il posizionamento della nave 
+        - colonna_iniz: La colonna di partenza per il posizionamento della nave
         - coordinate: Una lista delle coordinate occupate dalla nave. (Default: None)
-        - quantita: quantità dei tipi di nave. (Default: None)
+        
 
         Attributi:
         - nome: Il nome della nave.
         - lunghezza: La lunghezza della nave.
+        - orientamento: L'orientamento della nave (orizzontale o verticale)
+        - riga_iniz: La riga di partenza per il posizionamento della nave 
+        - colonna_iniz: La colonna di partenza per il posizionamento della nave
         - coordinate: Una lista delle coordinate occupate dalla nave.
         - colpi: Il numero di volte che la nave è stata colpita.
-        - quantita: quantità dei tipi di nave.
+        
 
         """
         self.nome = nome
         self.lunghezza = lunghezza
-        self.quantita = quantita
-        
-        
+        self.orientamento = orientamento
+        self.riga_iniz = riga_iniz
+        self.colonna_iniz = colonna_iniz
         self.colpi = 0  
+       
         if coordinate is None:
          self.coordinate = []
         else:
@@ -83,23 +91,6 @@ class Navi:
         else:
             return False
         
-        
-    def set_coordinate(self, coordinate):
-        """
-        Imposta le coordinate della nave con un valore specifico.
 
-        Argomenti:
-        - coordinate: Le nuove coordinate della nave da assegnare.
-
-        """
-        self.coordinate = coordinate    
-    
     
                      
-
-
-
-
-                     
-
-
