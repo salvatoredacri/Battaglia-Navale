@@ -2,8 +2,8 @@ from ship_class import Navi
 from griglia import *
 import argparse
 import sys
-import platform
 import os
+import platform
 
 
 # Controlla gli argomenti della riga di comando
@@ -44,14 +44,13 @@ def check_arguments(args):
         print('\u001b[31mInput invalido per "modalita". Deve essere 0 o 1\033[0m')
         raise ValueError
     
-    
-# Dizionario dei tipi di nave disponibili
+# dizionario dei tipi di nave disponibili   
 navi_disponibili = {
-    "portaerei": Navi("portaerei", 5),
-    "corazzata": Navi("corazzata", 4),
-    "incrociatore": Navi("incrociatore", 3),
-    "sottomarino": Navi("sottomarino", 2),
-    "cacciatorpediniere": Navi("cacciatorpediniere", 1)
+    "portaerei": Navi("portaerei", 5, orientamento=None, riga_iniz=None, colonna_iniz=None, coordinate=None),
+    "corazzata": Navi("corazzata", 4,orientamento=None, riga_iniz=None, colonna_iniz=None, coordinate=None),
+    "incrociatore": Navi("incrociatore", 3,orientamento=None, riga_iniz=None, colonna_iniz=None, coordinate=None),
+    "sottomarino": Navi("sottomarino", 2,orientamento=None, riga_iniz=None, colonna_iniz=None, coordinate=None),
+    "cacciatorpediniere": Navi("cacciatorpediniere", 1,orientamento=None, riga_iniz=None, colonna_iniz=None, coordinate=None)
 }
 # Crea la lista delle navi sulla base degli argomenti della riga di comando e delle navi disponibili
 def crea_lista_navi(args, navi_disponibili):
@@ -64,8 +63,8 @@ def crea_lista_navi(args, navi_disponibili):
         num_navi = getattr(args_copy, nave.nome)  
         if num_navi > 0:
             for _ in range(num_navi):
-                # Crea una nuova nave con quantita=1
-                nuova_nave = Navi(nave.nome, nave.lunghezza, quantita=1)
+                # Crea una nuova nave 
+                nuova_nave = Navi(nave.nome, nave.lunghezza, orientamento=None, riga_iniz=None, colonna_iniz=None, coordinate=None)
                 # Aggiunge la nuova nave alla lista delle navi 
                 lista_navi.append(nuova_nave)
                 # Decrementa il valore di num_navi di 1 
@@ -90,21 +89,35 @@ def initialize_parser(navi_disponibili):
    
     return parser.parse_args()
 
-# Stampa un messaggio iniziale con le quantità delle navi selezionate
+# stampa messaggio iniziale con la quantità delle navi disponibili selezionate
 def stampa_messaggio_iniziale(lista_navi):
     print("Quantità di navi selezionate:")
-    # Crea un insieme di nomi delle navi selezionate
-    navi_selezionate = set(nave.nome for nave in lista_navi)
-    for nome_nave in navi_selezionate:
-    # Calcola la quantità totale della nave
-     quantita_nave = sum(nave.quantita for nave in lista_navi if nave.nome == nome_nave)
-     print(f"{nome_nave}: {quantita_nave}")
+    # Crea un dizionario per tenere traccia delle quantità di ogni tipo di nave
+    quantita_navi = {}
+    for nave in lista_navi:
+        # Verifica se il tipo di nave è già presente nel dizionario
+        if nave.nome in quantita_navi:
+            # Se presente, incrementa la quantità di 1
+            quantita_navi[nave.nome] += 1
+        else:
+            # Altrimenti, inizializza la quantità a 1
+            quantita_navi[nave.nome] = 1
+
+    # Stampa le quantità di ogni tipo di nave
+    for nome_nave, quantita in quantita_navi.items():
+        print(f"{nome_nave}: {quantita}")
         
        
 
+
+
+# funzione che permette di pulire la console
 def clear_console():
-# Controllo del sistema operativo
-    if os.name == 'nt':  # Windows
+    # controllo del sistema operativo
+    if sys.platform.startswith('win'):  # Windows
         os.system('cls')
+    elif sys.platform.startswith('linux') or sys.platform.startswith('darwin'):  # Unix/Linux/Mac
+        os.system('clear')
     else:
-        os.system('clear') # Unix/Linux/Mac
+        raise Exception("Piattaforma non supportata")
+       
