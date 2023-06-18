@@ -5,8 +5,11 @@ from standards import *
 import time
 
 
-
-clear_console()
+try:
+ clear_console()
+except Exception as e:
+ print("Si è verificato un errore nella chiamata a clear_console():", str(e))
+ sys.exit()
 
 
 print('Benvenuto')
@@ -46,11 +49,11 @@ player=[giocatore_1, giocatore_2]
 # Giocatore 1 posiziona le tue navi!
 print(player[0],", è il tuo turno!" "\n Posiziona le tue navi!")
 stampa_griglia(griglia_giocatore_1)
-griglia1 = posiziona_navi(griglia_giocatore_1, player[0], lista_navi_1)
+griglia1, navi_posizionate_1 = posiziona_navi(griglia_giocatore_1, player[0], lista_navi_1)
 print(griglia1)
 
 
-clear_console()
+# clear_console()
 # Giocatore 1 ha finito di posizionare le navi. Passa al turno del Giocatore 2.
 input(f"Premi INVIO e passa il computer per passare al turno di {player[1]}")
 stampa_griglia(griglia_giocatore_2)
@@ -60,7 +63,7 @@ stampa_griglia(griglia_giocatore_2)
 # # Giocatore 2 posiziona le tue navi!
 print(player[1],", è il tuo turno!" "\n Posiziona le tue navi!")
 
-griglia2 = posiziona_navi(griglia_giocatore_2, player[1], lista_navi_2)
+griglia2, navi_posizionate_2 = posiziona_navi(griglia_giocatore_2, player[1], lista_navi_2)
 print(griglia2)
 
 clear_console()
@@ -81,7 +84,7 @@ while not fine_gioco:
         griglia_combattimento = griglia_giocatore_2
         griglia_colpi = griglia_colpi_1
         avversario = player[1]
-        lista_navi_avversario = lista_navi_2
+        lista_navi_avversario = navi_posizionate_2
 
         
         
@@ -89,7 +92,7 @@ while not fine_gioco:
         griglia_combattimento = griglia_giocatore_1
         griglia_colpi = griglia_colpi_2
         avversario = player[0]
-        lista_navi_avversario = lista_navi_1
+        lista_navi_avversario = navi_posizionate_1
         
         
         
@@ -113,3 +116,4 @@ clear_console()
 vincitore = player[turno_giocatore]
 print(f"{vincitore} ha vinto il gioco! Complimenti!")
 print("\n Grazie per aver giocato")
+
