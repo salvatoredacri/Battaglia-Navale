@@ -2,6 +2,7 @@ from griglia import *
 import string
 import re
 import time
+from standards import *
 
 class giocatore():
     def __init__(self, nome, griglia_giocatore, griglia_colpi, modalita):
@@ -175,6 +176,8 @@ class giocatore():
               stampa_griglia(self.griglia_colpi)
               print('Puoi sparare ancora')
               time.sleep(4)
+              if fine_gioco:
+                 break
         
             elif not colpo and self.modalita == 0:
               print("Hai sparato in acqua.")
@@ -212,8 +215,7 @@ class giocatore():
              return False
           return True 
     
-
-
+    
 
 
 
