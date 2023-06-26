@@ -40,13 +40,13 @@ clear_console()
 
 # Giocatore 1 ha finito di posizionare le navi. Passa al turno del Giocatore 2.
 input(f"Premi INVIO e passa il computer per passare al turno di {giocatore_2.nome}")
-stampa_griglia(giocatore_2.griglia_giocatore)
+clear_console()
 
 
 
 # # Giocatore 2 posiziona le tue navi!
 print(giocatore_2.nome,", è il tuo turno!" "\n Posiziona le tue navi!")
-
+stampa_griglia(giocatore_2.griglia_giocatore)
 griglia2, navi_posizionate_2 = giocatore_2.posiziona_navi(lista_navi_2)
 stampa_griglia(griglia2)
 print('Hai terminato le navi da posizionare, pensa alla tua strategia!')
@@ -63,8 +63,10 @@ print("""Giocatori, inizia la fase di attacco! Preparate la vostra offensiva!
 
 time.sleep(5)
 clear_console()
+
 # gestione alternanza dei turni
 fine_gioco = False
+
 while not fine_gioco:
  fine_gioco = giocatore_1.turno(giocatore_2)
  if fine_gioco:
