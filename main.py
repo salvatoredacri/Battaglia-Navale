@@ -1,115 +1,95 @@
 from griglia import  *
-from ship_class import Navi
-from gioco import turno, vittoria
 from standards import *
-import os
+from giocatore import giocatore
+
 import time
 
 
-os.system('cls')
+try:
+ clear_console()
+except Exception as e:
+ print("Si è verificato un errore nella chiamata a clear_console():", str(e))
+ sys.exit()
 
-# from standards import lista_navi
-print('Benvenuto')
 
 
 # Assegna i valori degli argomenti alle variabili
 args=initialize_parser(navi_disponibili)
-lista_navi_1 = crea_lista_navi(args, navi_disponibili)
-lista_navi_2 = crea_lista_navi(args, navi_disponibili)
-
-
-giocatore_1 = args.giocatore_1
-giocatore_2 = args.giocatore_2
-dimensione = args.dimensione
-modalita =args.modalita
 check_parser(args)
 
+lista_navi_1 = crea_lista_navi(args, navi_disponibili)
+lista_navi_2 = crea_lista_navi(args, navi_disponibili)
+giocatore_1 = giocatore(args.giocatore_1, crea_griglia(args.dimensione), crea_griglia(args.dimensione), args.modalita)
+giocatore_2 = giocatore(args.giocatore_2, crea_griglia(args.dimensione), crea_griglia(args.dimensione), args.modalita)
+
+# stampa messaggio di benvenuto 
+print('Benvenuto')
 stampa_messaggio_iniziale(lista_navi_1)
 time.sleep(5)
-os.system('cls')
-
-
-
-
-# #Creo le griglie dei due giocatori
-# dimensione = int(input("Inserisci la dimensione della griglia: "))   
-
-griglia_colpi_1= crea_griglia(dimensione)
-griglia_colpi_2= crea_griglia(dimensione)
-griglia_giocatore_1 = crea_griglia(dimensione)
-griglia_giocatore_2 = crea_griglia(dimensione)
-
-player=[giocatore_1, giocatore_2]
-
-
+clear_console()
 
 # Giocatore 1 posiziona le tue navi!
-print(player[0],", è il tuo turno!" "\n Posiziona le tue navi!")
-stampa_griglia(griglia_giocatore_1,dimensione)
-griglia1 = posiziona_navi(griglia_giocatore_1, player[0], lista_navi_1)
-print(griglia1)
+print(giocatore_1.nome,", è il tuo turno!" "\n Posiziona le tue navi!")
+stampa_griglia(giocatore_1.griglia_giocatore)
+griglia1, navi_posizionate_1 = giocatore_1.posiziona_navi(lista_navi_1)
+stampa_griglia(griglia1)
+print('Hai terminato le navi da posizionare, pensa alla tua strategia!')
+time.sleep(2)
 
+clear_console()
 
-os.system('cls')
 # Giocatore 1 ha finito di posizionare le navi. Passa al turno del Giocatore 2.
-input(f"Premi INVIO e passa il computer per passare al turno di {player[1]}")
-stampa_griglia(griglia_giocatore_2, dimensione)
+input(f"Premi INVIO e passa il computer per passare al turno di {giocatore_2.nome}")
+clear_console()
 
 
 
 # # Giocatore 2 posiziona le tue navi!
-print(player[1],", è il tuo turno!" "\n Posiziona le tue navi!")
+print(giocatore_2.nome,", è il tuo turno!" "\n Posiziona le tue navi!")
+stampa_griglia(giocatore_2.griglia_giocatore)
+griglia2, navi_posizionate_2 = giocatore_2.posiziona_navi(lista_navi_2)
+stampa_griglia(griglia2)
+print('Hai terminato le navi da posizionare, pensa alla tua strategia!')
+time.sleep(2)
 
-griglia2 = posiziona_navi(griglia_giocatore_2, player[1], lista_navi_2)
-print(griglia2)
+clear_console()
 
-os.system('cls')
 # Inizia il gioco
+input('Premi INVIO per passare alla fase successiva!')
+clear_console()
+
 print("""Giocatori, inizia la fase di attacco! Preparate la vostra offensiva!
          \nBuona fortuna!""")
 
-time.sleep(7)
-os.system('cls')
+time.sleep(5)
+clear_console()
 
+# gestione alternanza dei turni
 fine_gioco = False
-turno_giocatore = 0  # Indice del giocatore di turno
 
 while not fine_gioco:
-    print(f"{player[turno_giocatore]}, è il tuo turno! Attacca!")
+ fine_gioco = giocatore_1.turno(giocatore_2)
+ if fine_gioco:
+   break
 
-    if turno_giocatore == 0:
-        griglia_combattimento = griglia_giocatore_2
-        griglia_colpi = griglia_colpi_1
-        avversario = player[1]
-        lista_navi_avversario = lista_navi_2
+ input('Premi INVIO e passa il computer al prossimo giocatore')
 
-        
-        
-    else:
-        griglia_combattimento = griglia_giocatore_1
-        griglia_colpi = griglia_colpi_2
-        avversario = player[0]
-        lista_navi_avversario = lista_navi_1
-        
-        
-        
 
-    # Esegui il turno di attacco
-    fine_gioco, griglia_colpi, griglia_combattimento= turno(griglia_combattimento, player[turno_giocatore], griglia_colpi, fine_gioco, lista_navi_avversario, modalita)
-    
+ fine_gioco = giocatore_2.turno(giocatore_1)
+ if fine_gioco:
+  break
+ input ('Premi INVIO e passa il computer al prossimo giocatore')
+clear_console()
 
-    
-    # # Controlla la vittoria del giocatore
-    # fine_gioco = vittoria(lista_navi_avversario)
-     
-    if not fine_gioco:
-        input(f"Premi INVIO e passa il computer per passare al turno di {player[1-turno_giocatore]}")
-        turno_giocatore = 1 - turno_giocatore
-        
-     
-
-# # Fine del gioco, un giocatore ha vinto
-os.system('cls')
-vincitore = player[turno_giocatore]
-print(f"{vincitore} ha vinto il gioco! Complimenti!")
+# proclamazione del vincitore
+if giocatore_1.vittoria():
+    clear_console()
+    print(f'{giocatore_2.nome}, Complimenti hai vinto il gioco!')
+else:
+    clear_console()
+    print(f'{giocatore_1.nome}, Complimenti hai vinto il gioco!')
+ 
+ 
 print("\n Grazie per aver giocato")
+
+
