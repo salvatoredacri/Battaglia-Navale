@@ -4,6 +4,7 @@ import re
 import time
 from standards import *
 
+
 class giocatore():
     def __init__(self, nome, griglia_giocatore, griglia_colpi, modalita):
         """
@@ -60,9 +61,9 @@ class giocatore():
                 if colonna_iniz not in colonne_valide or riga_iniz < 1 or riga_iniz > len(self.griglia_giocatore):
                     print("Coordinate non valide. Riprova.")
                     continue
-
-                orientamento = input("Inserisci l'orientamento della nave ('o' per orizzontale, 'v' per verticale): ")
-                orientamento = orientamento.lower()  # Converte l'orientamento in minuscolo per facilitare i controlli successivi
+                if not nave.lunghezza ==1:
+                 orientamento = input("Inserisci l'orientamento della nave ('o' per orizzontale, 'v' per verticale): ")
+                 orientamento = orientamento.lower()  # Converte l'orientamento in minuscolo per facilitare i controlli successivi
                 if orientamento not in ['o', 'orizzontale', 'v', 'verticale']:
                     print("Orientamento non valido. Riprova.")
                     continue
@@ -100,13 +101,18 @@ class giocatore():
         if puo_inserire_nave(nave, orientamento, riga_iniz, colonna_iniz, self.griglia_giocatore):
             coordinate = []
             if orientamento in ['orizzontale', 'o']:
+                #inserisci nave
                 for i in range(nave.lunghezza):
-                    self.griglia_giocatore[riga_iniz][colonna_iniz + i] = 1
+                    self.griglia_giocatore[riga_iniz][colonna_iniz + i] = StatoCella.NAVE
                     coordinate.append((riga_iniz, colonna_iniz + i))
+         
             elif orientamento in ['verticale', 'v']:
+             #inserisci nave     
                 for i in range(nave.lunghezza):
-                    self.griglia_giocatore[riga_iniz + i][colonna_iniz] = 1
+                    self.griglia_giocatore[riga_iniz + i][colonna_iniz] = StatoCella.NAVE
                     coordinate.append((riga_iniz + i, colonna_iniz))
+        
+
             print("\nNave inserita correttamente:")
             return self.griglia_giocatore, coordinate
         else:
@@ -152,7 +158,7 @@ class giocatore():
             colonna = colonne_valide.index(colonna) # Assegna l'indice corrispondente alla lettera della colonna
             
             
-            if self.griglia_colpi[riga][colonna] != 0: # Controllo se il giocatore ha già sparato in questa posizione
+            if self.griglia_colpi[riga][colonna] == StatoCella.COLPITA and StatoCella.ACQUA: # Controllo se il giocatore ha già sparato in questa posizione
              print("Hai già sparato in questa posizione. Riprova.")
              time.sleep(2)
              continue
@@ -163,7 +169,7 @@ class giocatore():
              if nave.colpita(riga, colonna): # Controllo se la nave è stata colpita alle coordinate specificate
                 print("Hai colpito una nave!")  
                 colpo = True # Imposta il colpo come vero
-                self.griglia_colpi[riga][colonna] = "c" # Segna il colpo sulla griglia dei colpi effettuati del giocatore
+                self.griglia_colpi[riga][colonna] = StatoCella.COLPITA # Segna il colpo sulla griglia dei colpi effettuati del giocatore
                 
                 if nave.affondata(): # Controllo se la nave è stata affondata
                     print("Hai affondato una nave!", nave.nome)
@@ -181,7 +187,7 @@ class giocatore():
            
             elif not colpo and self.modalita == 0: #  controllo se il colpo non è andato a segno
               print("Hai sparato in acqua.")
-              self.griglia_colpi[riga][colonna] = "-"
+              self.griglia_colpi[riga][colonna] = StatoCella.ACQUA
               stampa_griglia(self.griglia_colpi)
               time.sleep(2)
               fine_turno = True # il turno finisce e si passa al prossimo giocatore
@@ -190,7 +196,7 @@ class giocatore():
              
                if not colpo and self.modalita == 1: # controllo se il colpo non è andato a segno
                 print("Hai sparato in acqua.")
-                self.griglia_colpi[riga][colonna] = "-"
+                self.griglia_colpi[riga][colonna] = StatoCella.ACQUA
                 stampa_griglia(self.griglia_colpi)
                 time.sleep(2)
                 fine_turno = True # il turno finisce e si passa al prossimo giocatore
