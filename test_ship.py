@@ -15,7 +15,7 @@ class TestShip(unittest.TestCase):
 
     def test_parallel_horizontal_5len_ships_separated_by_one_row_dont_crash(self):
         first_ship = Navi('first', 5, 'o', 3, 'A', None)
-        second_ship = Navi('second', 5, 'o', 5, 'F', None)
+        second_ship = Navi('second', 5, 'o', 5, 'A', None)
         self.assertFalse(first_ship.crashes_against(second_ship))
 
     def test_completely_overlapped_horizontal_5len_ships_crash(self):
