@@ -89,14 +89,26 @@ class Navi:
         else:
             return False
         
+    def crashes_against(self, altra_nave):
+        """Indicates whether a ship crashes against another one
+        Parameters:
+          @altra_nave: the other ship
 
+        Returns:
+          True in case of crash, False otherwise
+        """
+        pass
     
+    def __get_boundaries(self):
+        """Returns a tuple containing the (topLeft, bottomRight) corners of the rectangle surrounding the ship
+        Returns:
+          The (topLeft, bottomRight) tuple, e.g.: for a 4len vertical ship in B2 the returned boundaries are ((1, 0), (6, 2))
+        """
+        pass
     
-                     
-
-
-
-
-                     
-
-
+    def __get_used_cells(self):
+        """Returns a list of cells used by the ship
+        Returns:
+          The list of used cells, e.g.: for a 4len vertical ship in B2 the list is [(2, 1), (3, 1), (4, 1), (5, 1)]
+        """
+        pass
