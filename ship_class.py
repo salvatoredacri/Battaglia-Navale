@@ -1,3 +1,8 @@
+from enum import Enum
+class OrientamentoNave(Enum):
+    ORIZZONTALE =  'o'
+    VERTICALE =  'v'
+
 class Navi:
     def __init__(self, nome, lunghezza, orientamento, riga_iniz, colonna_iniz, coordinate=None): 
         """
@@ -88,8 +93,6 @@ class Navi:
             return True
         else:
             return False
-        
-
     
     
                      
