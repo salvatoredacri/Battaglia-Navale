@@ -1,6 +1,7 @@
 from griglia import  *
 from standards import *
 from giocatore import giocatore
+from strategy import *
 
 import time
 
@@ -19,8 +20,8 @@ check_parser(args)
 
 lista_navi_1 = crea_lista_navi(args, navi_disponibili)
 lista_navi_2 = crea_lista_navi(args, navi_disponibili)
-giocatore_1 = giocatore(args.giocatore_1, crea_griglia(args.dimensione), crea_griglia(args.dimensione), args.modalita)
-giocatore_2 = giocatore(args.giocatore_2, crea_griglia(args.dimensione), crea_griglia(args.dimensione), args.modalita)
+giocatore_1 = giocatore(args.giocatore_1, crea_griglia(args.dimensione), crea_griglia(args.dimensione))
+giocatore_2 = giocatore(args.giocatore_2, crea_griglia(args.dimensione), crea_griglia(args.dimensione))
 
 # stampa messaggio di benvenuto 
 print('Benvenuto')
@@ -64,32 +65,11 @@ print("""Giocatori, inizia la fase di attacco! Preparate la vostra offensiva!
 time.sleep(5)
 clear_console()
 
-# gestione alternanza dei turni
-fine_gioco = False
 
-while not fine_gioco:
- fine_gioco = giocatore_1.turno(giocatore_2)
- if fine_gioco:
-   break
+cambio_turno_strategy = get_cambio_turno_strategy(args.modalita) #qui si usa il pattern strategy
+giocatore_di_turno = giocatore_1
 
- input('Premi INVIO e passa il computer al prossimo giocatore')
-
-
- fine_gioco = giocatore_2.turno(giocatore_1)
- if fine_gioco:
-  break
- input ('Premi INVIO e passa il computer al prossimo giocatore')
-clear_console()
-
-# proclamazione del vincitore
-if giocatore_1.vittoria():
-    clear_console()
-    print(f'{giocatore_2.nome}, Complimenti hai vinto il gioco!')
-else:
-    clear_console()
-    print(f'{giocatore_1.nome}, Complimenti hai vinto il gioco!')
- 
- 
-print("\n Grazie per aver giocato")
-
-
+while not partita_finita(giocatore_1,giocatore_2):
+  esito = giocatore_di_turno.turno() 
+  altro_giocatore = giocatore_1 if giocatore_di_turno == giocatore_2 else giocatore_2
+  giocatore_di_turno = cambio_turno_strategy.get_prossimo_giocatore(giocatore_di_turno, esito, altro_giocatore)
