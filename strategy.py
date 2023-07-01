@@ -42,6 +42,7 @@ class TiroContinuoStrategy(CambioTurnoStrategy):
              return altro_giocatore 
         
 
+
 def get_cambio_turno_strategy(modalita):
  '''
  Restituisce l'istanza di strategia di cambio turno in base alla modalità di gioco specificata.
@@ -53,6 +54,8 @@ def get_cambio_turno_strategy(modalita):
      return TiroSingoloStrategy()
  elif modalita == 0:
      return TiroContinuoStrategy()
+ else:
+        raise ValueError("Modalità non valida. La modalità deve essere 0 o 1.")
  
         
 
