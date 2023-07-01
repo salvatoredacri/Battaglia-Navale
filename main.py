@@ -70,6 +70,10 @@ cambio_turno_strategy = get_cambio_turno_strategy(args.modalita) #qui si usa il 
 giocatore_di_turno = giocatore_1
 
 while not partita_finita(giocatore_1,giocatore_2):
-  esito = giocatore_di_turno.turno() 
+   
   altro_giocatore = giocatore_1 if giocatore_di_turno == giocatore_2 else giocatore_2
-  giocatore_di_turno = cambio_turno_strategy.get_prossimo_giocatore(giocatore_di_turno, esito, altro_giocatore)
+  esito, fine_gioco = giocatore_di_turno.turno(altro_giocatore)
+  giocatore_di_turno = cambio_turno_strategy.get_prossimo_giocatore(giocatore_di_turno, esito, altro_giocatore, fine_gioco)
+  
+
+sys.exit()
