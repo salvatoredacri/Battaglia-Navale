@@ -2,7 +2,7 @@ from giocatore import *
 from standards import clear_console
        
 class CambioTurnoStrategy:
-    def get_prossimo_giocatore(self, giocatore_corrente, esito_colpo):
+    def get_prossimo_giocatore(self):
         '''
         Metodo astratto per ottenere il prossimo giocatore.
         Viene implementato dalle sottoclassi.
@@ -17,15 +17,11 @@ class TiroSingoloStrategy(CambioTurnoStrategy):
     Altrimenti, si passa lo stesso all'altro giocatore.
     
     '''
-    def get_prossimo_giocatore(self, giocatore_corrente, esito_colpo, altro_giocatore):
-            if esito_colpo and not partita_finita(giocatore_corrente, altro_giocatore):
+    def get_prossimo_giocatore(self, giocatore_corrente, colpo_riuscito, altro_giocatore, ultimo_colpo):
+                if not ultimo_colpo:
                  time.sleep(2)
                  input('Premi INVIO e passa il computer al tuo avversario')
-                 return altro_giocatore
-            else:
-                time.sleep(2)
-                input('Premi INVIO e passa il computer al tuo avversario')
-                return altro_giocatore 
+                 return altro_giocatore 
 
 class TiroContinuoStrategy(CambioTurnoStrategy):
     '''
@@ -34,9 +30,10 @@ class TiroContinuoStrategy(CambioTurnoStrategy):
     Altrimenti, si passa all'altro giocatore.
    
     '''
-    def get_prossimo_giocatore(self, giocatore_corrente, esito_colpo, altro_giocatore):
-         if esito_colpo and not partita_finita(giocatore_corrente, altro_giocatore):
-              print('Puoi sparare ancora')
+    def get_prossimo_giocatore(self, giocatore_corrente, colpo_riuscito, altro_giocatore, ultimo_colpo):
+         if colpo_riuscito:
+              if not ultimo_colpo:
+               print('Puoi sparare ancora')
               time.sleep(2)
               return giocatore_corrente
          else:
@@ -44,30 +41,6 @@ class TiroContinuoStrategy(CambioTurnoStrategy):
              input('Premi INVIO e passa il computer al tuo avversario')
              return altro_giocatore 
         
-
-def partita_finita(giocatore1, giocatore2):
-    '''
-    Verifica se la partita è finita controllando se uno dei giocatori ha vinto.
-    Se uno dei giocatori ha vinto, viene mostrato il messaggio di vittoria e il programma termina.
-    Altrimenti, la partita non è ancora finita.
-    
-    '''
-    if giocatore1.vittoria():
-        time.sleep(4)
-        clear_console()
-        print(f"\u001b[92mPartita finita! {giocatore1.nome} ha vinto!\033[0m")
-        print('\nGrazie per aver giocato')
-        return True and sys.exit()
-        
-    elif giocatore2.vittoria():
-        time.sleep(4)
-        clear_console()
-        print(f"\u001b[92mPartita finita! {giocatore2.nome} ha vinto!\033[0m")
-        print('\nGrazie per aver giocato')
-        return True and sys.exit()
-    else:
-        return False
-    
 
 def get_cambio_turno_strategy(modalita):
  '''
@@ -80,3 +53,30 @@ def get_cambio_turno_strategy(modalita):
      return TiroSingoloStrategy()
  elif modalita == 0:
      return TiroContinuoStrategy()
+ 
+        
+
+
+def partita_finita(giocatore1, giocatore2):
+    '''
+    Verifica se la partita è finita controllando se uno dei giocatori ha vinto.
+    Se uno dei giocatori ha vinto, viene mostrato il messaggio di vittoria e il programma termina.
+    Altrimenti, la partita non è ancora finita.
+    
+    '''
+    if giocatore2.controllo_navi_affondate(): #controllo la lista delle navi posizionate dal giocatore2: se tutte le navi sono state affondate, il giocatore1 ha vinto
+        time.sleep(4)
+        clear_console()
+        print(f"\u001b[92mPartita finita! {giocatore1.nome} ha vinto!\033[0m")
+        print('\nGrazie per aver giocato')
+        return True
+        
+    elif giocatore1.controllo_navi_affondate(): #controllo la lista delle navi posizionate dal giocatore1: se tutte le navi sono state affondate, il giocatore2 ha vinto
+        time.sleep(4)
+        clear_console()
+        print(f"\u001b[92mPartita finita! {giocatore2.nome} ha vinto!\033[0m")
+        print('\nGrazie per aver giocato')
+        return True 
+        
+    else:
+        return False
