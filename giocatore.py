@@ -66,6 +66,8 @@ class giocatore():
                 if not nave.lunghezza ==1:
                  orientamento = input("Inserisci l'orientamento della nave ('o' per orizzontale, 'v' per verticale): ")
                  orientamento = orientamento.lower()  # Converte l'orientamento in minuscolo per facilitare i controlli successivi
+                else:
+                    orientamento == OrientamentoNave.ORIZZONTALE
                 if orientamento != OrientamentoNave.ORIZZONTALE.value and orientamento != OrientamentoNave.VERTICALE.value:
                     print("Orientamento non valido. Riprova.")
                     continue
@@ -122,7 +124,7 @@ class giocatore():
             return False
             
 
-    def vittoria(self):
+    def controllo_navi_affondate(self):
        """
         Controlla se il giocatore ha vinto la partita.
 
@@ -138,7 +140,7 @@ class giocatore():
     
     
     
-    def turno(self):
+    def turno(self, avversario):
      """
      Gestisce il turno di gioco del giocatore.
 
@@ -150,6 +152,7 @@ class giocatore():
      
      """
      fine_gioco = False
+     
 
      while not fine_gioco:
         clear_console()
@@ -184,27 +187,25 @@ class giocatore():
 
         colpo = False # Indica se il colpo ha colpito una nave avversaria
 
-        for nave in self.navi_posizionate: # Ciclo per ogni nave posizionata dall'avversario
+        for nave in avversario.navi_posizionate: # Ciclo per ogni nave posizionata dall'avversario
             if nave.colpita(riga, colonna): # Controllo se la nave è stata colpita alle coordinate specificate
                 print("Hai colpito una nave!")
                 colpo = True
                 self.griglia_colpi[riga][colonna] = StatoCella.COLPITA # Segna il colpo sulla griglia dei colpi effettuati del giocatore
                 if nave.affondata():
                     print("Hai affondato una nave!", nave.nome)
-                    if all(n.affondata() for n in self.navi_posizionate): # Controllo se tutte le navi avversarie sono affondate
+                    if all(n.affondata() for n in avversario.navi_posizionate): # Controllo se tutte le navi avversarie sono affondate
                         fine_gioco = True
                         print('\nComplimenti hai affondato tutte le navi avversarie!')
                         stampa_griglia(self.griglia_colpi)
-                        return fine_gioco  # Tutte le navi sono affondate, fine del gioco
+                        return True, fine_gioco  # Tutte le navi sono affondate, fine del gioco
                 stampa_griglia(self.griglia_colpi)
-                return True 
+                return True, fine_gioco
         if not colpo:   # controllo se il colpo non è andato a segno
             print("Hai sparato in acqua.")
             self.griglia_colpi[riga][colonna] = StatoCella.ACQUA
             stampa_griglia(self.griglia_colpi)
-            return False
-
-    
+            return False, fine_gioco
     
 
 
