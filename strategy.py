@@ -2,7 +2,7 @@ from giocatore import *
 from standards import clear_console
        
 class CambioTurnoStrategy:
-    def get_prossimo_giocatore(self):
+    def get_prossimo_giocatore(self, giocatore_corrente, colpo_riuscito):
         '''
         Metodo astratto per ottenere il prossimo giocatore.
         Viene implementato dalle sottoclassi.
