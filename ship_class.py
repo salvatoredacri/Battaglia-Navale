@@ -1,7 +1,7 @@
 from enum import Enum
 class OrientamentoNave(Enum):
-    ORIZZONTALE =  2345
-    VERTICALE =  6543
+    ORIZZONTALE =  ''
+    VERTICALE =  ''
 
 class Navi:
     def __init__(self, nome, lunghezza, orientamento, riga_iniz, colonna_iniz, coordinate=None): 
