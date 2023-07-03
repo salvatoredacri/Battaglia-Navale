@@ -3,9 +3,11 @@ import string
 import re
 import time
 from standards import *
+from ship_class import *
+
 
 class giocatore():
-    def __init__(self, nome, griglia_giocatore, griglia_colpi, modalita):
+    def __init__(self, nome, griglia_giocatore, griglia_colpi):
         """
         Inizializza un oggetto Giocatore.
 
@@ -13,21 +15,21 @@ class giocatore():
         - nome: il nome del giocatore
         - griglia_giocatore: la griglia di gioco del giocatore
         - griglia_colpi: la griglia dei colpi effettuati dal giocatore
-        - modalita: la modalità di gioco del giocatore
+       
 
         Attributi:
         - nome: il nome del giocatore
         - griglia_giocatore: la griglia di gioco del giocatore
         - griglia_colpi: la griglia dei colpi effettuati dal giocatore
         - navi_posizionate: la lista delle navi posizionate sulla griglia di gioco
-        - modalita: la modalità di gioco del giocatore
+       
         """
         
         self.nome= nome
         self.griglia_giocatore = griglia_giocatore
         self.griglia_colpi = griglia_colpi
         self.navi_posizionate = []
-        self.modalita = modalita
+        
         
 
     def posiziona_navi(self, lista_navi):
@@ -40,6 +42,7 @@ class giocatore():
         Valore di ritorno:
         - La griglia di gioco del giocatore con le navi posizionate
         - La lista delle navi_posizionate sulla griglia di gioco
+        
         """
        
         colonne_valide = string.ascii_uppercase[:len(self.griglia_giocatore)] #crea una lista di colonne valide per la griglia di gioco rappresentate da lettere dell'alfabeto
@@ -60,12 +63,10 @@ class giocatore():
                 if colonna_iniz not in colonne_valide or riga_iniz < 1 or riga_iniz > len(self.griglia_giocatore):
                     print("Coordinate non valide. Riprova.")
                     continue
-
-                orientamento = input("Inserisci l'orientamento della nave ('o' per orizzontale, 'v' per verticale): ")
-                orientamento = orientamento.lower()  # Converte l'orientamento in minuscolo per facilitare i controlli successivi
-                if orientamento not in ['o', 'orizzontale', 'v', 'verticale']:
-                    print("Orientamento non valido. Riprova.")
-                    continue
+                if not nave.lunghezza == 1:
+                    orientamento = self.__input_orientamento()
+                else:
+                    orientamento == OrientamentoNave.ORIZZONTALE # qualsiasi orientamento è indifferente
 
                 result = self.inserisci_nave(nave, orientamento, riga_iniz - 1, colonne_valide.index(colonna_iniz))
                 if result != False:
@@ -80,6 +81,17 @@ class giocatore():
                     
 
         return self.griglia_giocatore, self.navi_posizionate
+    
+    def __input_orientamento(self):
+        while True:
+            ori_str = input("Inserisci l'orientamento della nave: orizzontale (o) oppure verticale (v): ")
+            ori_str = ori_str.lower()  # Converte l'orientamento in minuscolo per facilitare i controlli successivi
+            if ori_str in ['orizzontale', 'o']:
+                return OrientamentoNave.ORIZZONTALE
+            elif ori_str in ['verticale', 'v']:
+                return OrientamentoNave.VERTICALE
+            else:
+                print("Orientamento non valido. Riprova.")
 
     def inserisci_nave(self, nave, orientamento, riga_iniz, colonna_iniz):
         """
@@ -96,128 +108,111 @@ class giocatore():
             - griglia_giocatore: la griglia di gioco aggiornata con la nave inserita
             - coordinate: una lista di tuple che rappresentano le coordinate della nave sulla griglia
         - Se la nave non può essere inserita, restituisce False
+        
         """
         if puo_inserire_nave(nave, orientamento, riga_iniz, colonna_iniz, self.griglia_giocatore):
             coordinate = []
-            if orientamento in ['orizzontale', 'o']:
+            if orientamento == OrientamentoNave.ORIZZONTALE:
+                #inserisci nave
                 for i in range(nave.lunghezza):
-                    self.griglia_giocatore[riga_iniz][colonna_iniz + i] = 1
+                    self.griglia_giocatore[riga_iniz][colonna_iniz + i] = StatoCella.NAVE
                     coordinate.append((riga_iniz, colonna_iniz + i))
-            elif orientamento in ['verticale', 'v']:
+         
+            elif orientamento == OrientamentoNave.VERTICALE:
+             #inserisci nave     
                 for i in range(nave.lunghezza):
-                    self.griglia_giocatore[riga_iniz + i][colonna_iniz] = 1
+                    self.griglia_giocatore[riga_iniz + i][colonna_iniz] = StatoCella.NAVE
                     coordinate.append((riga_iniz + i, colonna_iniz))
+        
+
             print("\nNave inserita correttamente:")
             return self.griglia_giocatore, coordinate
         else:
             return False
-        
-
-    def turno(self,avversario):
-        """
-        Gestisce il turno di gioco del giocatore.
-
-        Argomenti:
-        - avversario: l'oggetto Giocatore avversario
-
-        Ritorno:
-        - True se il gioco è finito (il giocatore ha vinto), False altrimenti
-        """
-        fine_turno = False
-        fine_gioco = False
-        
-        while not fine_turno:
-            clear_console()
-            print(f'{self.nome} Ecco la tua griglia dei colpi effettuati')
-            stampa_griglia(self.griglia_colpi)
-            print(f"{self.nome}, inserisci le coordinate dove vuoi sparare")
             
-            
-            colonne_valide = string.ascii_uppercase[:len(avversario.griglia_giocatore)] #crea una lista di colonne valide per la griglia di gioco rappresentate da lettere dell'alfabeto
-            while True: 
-              coordinate_colpo = input('Inserisci le coordinate di dove vuoi sparare (es. A1):')
-              if not coordinate_colpo:
-                print('Inserire un valore corretto (es. A1)')
-                continue
-              if not re.match("^[A-Za-z][0-9]+$", coordinate_colpo):
-                print("Errore: caratteri speciali non consentiti.")
-                continue
-              colonna = coordinate_colpo[0].upper() # Estrae la lettera della colonna e la converte in maiuscolo
-              riga = int(coordinate_colpo[1:]) - 1  # Estrae il numero di riga sottraendo 1 per adattarlo all'indice della griglia          
-              if colonna not in colonne_valide or riga < 0 or riga >= len(avversario.griglia_giocatore):
-                print("Coordinate non valide. Riprova.")
-                continue
-              break
-            
-            colonna = colonne_valide.index(colonna) # Assegna l'indice corrispondente alla lettera della colonna
-            
-            
-            if self.griglia_colpi[riga][colonna] != 0: # Controllo se il giocatore ha già sparato in questa posizione
-             print("Hai già sparato in questa posizione. Riprova.")
-             time.sleep(2)
-             continue
 
-            colpo = False # Indica se il colpo ha colpito una nave avversaria
-        
-            for nave in avversario.navi_posizionate: # Ciclo per ogni nave posizionata dall'avversario
-             if nave.colpita(riga, colonna): # Controllo se la nave è stata colpita alle coordinate specificate
-                print("Hai colpito una nave!")  
-                colpo = True # Imposta il colpo come vero
-                self.griglia_colpi[riga][colonna] = "c" # Segna il colpo sulla griglia dei colpi effettuati del giocatore
-                
-                if nave.affondata(): # Controllo se la nave è stata affondata
-                    print("Hai affondato una nave!", nave.nome)
-                    if all(n.affondata() for n in avversario.navi_posizionate): # Controllo se tutte le navi avversarie sono affondate
-                        fine_gioco = avversario.vittoria() 
-                        time.sleep(2)
-                        return fine_gioco  # Tutte le navi sono affondate, fine del gioco
-                        
-            # Controllo se la modalità di gioco è 0 (in caso di colpo andato a segno il giocatore continua a sparare)
-            if colpo and self.modalita == 0: # controllo se il colpo è andato a segno
-              print("\nGriglia dei colpi:")
-              stampa_griglia(self.griglia_colpi)
-              print('Puoi sparare ancora') 
-              time.sleep(4)                  # il giocatore può continuare a sparare, il ciclo ricomincia
-           
-            elif not colpo and self.modalita == 0: #  controllo se il colpo non è andato a segno
-              print("Hai sparato in acqua.")
-              self.griglia_colpi[riga][colonna] = "-"
-              stampa_griglia(self.griglia_colpi)
-              time.sleep(2)
-              fine_turno = True # il turno finisce e si passa al prossimo giocatore
-          
-            else:  # Se la modalità di gioco è 1 (i turni vengono alternati di continuo a prescindere dal risultato del colpo)
-             
-               if not colpo and self.modalita == 1: # controllo se il colpo non è andato a segno
-                print("Hai sparato in acqua.")
-                self.griglia_colpi[riga][colonna] = "-"
-                stampa_griglia(self.griglia_colpi)
-                time.sleep(2)
-                fine_turno = True # il turno finisce e si passa al prossimo giocatore
-              
-               elif colpo and self.modalita == 1: # controllo se il colpo è andato a segno
-                 print("\nGriglia dei colpi:")
-                 stampa_griglia(self.griglia_colpi)
-                 time.sleep(3)
-                 fine_turno = True # il turno finisce e si passa al prossimo giocatore
-
-        
-
-        return fine_gioco
-    
-
-    def vittoria(self):
+    def controllo_navi_affondate(self):
        """
         Controlla se il giocatore ha vinto la partita.
 
         Ritorno:
         - True se il giocatore ha vinto, False altrimenti
+        
         """
        for nave in self.navi_posizionate:
           if not nave.affondata():
              return False
+       else:
           return True 
     
+    
+    
+    def turno(self, avversario):
+     """
+     Gestisce il turno di gioco del giocatore.
+
+     Argomenti:
+     - avversario: l'oggetto Giocatore avversario
+
+     Ritorno:
+     - True se il gioco è finito (il giocatore ha vinto), False altrimenti
+     
+     """
+     fine_gioco = False
+     
+
+     while not fine_gioco:
+        clear_console()
+        print(f'{self.nome} Ecco la tua griglia dei colpi effettuati')
+        stampa_griglia(self.griglia_colpi)
+        print(f"{self.nome}, inserisci le coordinate dove vuoi sparare")
+
+        colonne_valide = string.ascii_uppercase[:len(self.griglia_giocatore)] #crea una lista di colonne valide per la griglia di gioco rappresentate da lettere dell'alfabeto
+
+        while True:
+            coordinate_colpo = input('Inserisci le coordinate di dove vuoi sparare (es. A1):')
+            if not coordinate_colpo:
+                print('Inserire un valore corretto (es. A1)')
+                continue
+            if not re.match("^[A-Za-z][0-9]+$", coordinate_colpo):
+                print("Errore: caratteri speciali non consentiti.")
+                continue
+            colonna = coordinate_colpo[0].upper()
+            riga = int(coordinate_colpo[1:]) - 1
+
+            if colonna not in colonne_valide or riga < 0 or riga >= len(self.griglia_giocatore):
+                print("Coordinate non valide. Riprova.")
+                continue
+            break
+
+        colonna = colonne_valide.index(colonna)
+
+        if self.griglia_colpi[riga][colonna] == StatoCella.COLPITA and StatoCella.ACQUA:  # Controllo se il giocatore ha già sparato in questa posizione
+            print("Hai già sparato in questa posizione. Riprova.")
+            time.sleep(2)
+            continue
+
+        colpo = False # Indica se il colpo ha colpito una nave avversaria
+
+        for nave in avversario.navi_posizionate: # Ciclo per ogni nave posizionata dall'avversario
+            if nave.colpita(riga, colonna): # Controllo se la nave è stata colpita alle coordinate specificate
+                print("Hai colpito una nave!")
+                colpo = True
+                self.griglia_colpi[riga][colonna] = StatoCella.COLPITA # Segna il colpo sulla griglia dei colpi effettuati del giocatore
+                if nave.affondata():
+                    print("Hai affondato una nave!", nave.nome)
+                    if all(n.affondata() for n in avversario.navi_posizionate): # Controllo se tutte le navi avversarie sono affondate
+                        fine_gioco = True
+                        print('\nComplimenti hai affondato tutte le navi avversarie!')
+                        stampa_griglia(self.griglia_colpi)
+                        return True, fine_gioco  # Tutte le navi sono affondate, fine del gioco
+                stampa_griglia(self.griglia_colpi)
+                return True, fine_gioco
+        if not colpo:   # controllo se il colpo non è andato a segno
+            print("Hai sparato in acqua.")
+            self.griglia_colpi[riga][colonna] = StatoCella.ACQUA
+            stampa_griglia(self.griglia_colpi)
+            return False, fine_gioco
     
 
 
