@@ -126,50 +126,50 @@ def puo_inserire_nave(nave, orientamento, riga, colonna, griglia):
     return True
     
 
-#metodo di controllo tramite rettangolo
+'''metodo alternativo di controllo tramite rettangolo
 
-# def puo_inserire_nave(nave, orientamento, riga, colonna, griglia):
-#     # Imposta la dimensione del quadrato intorno alla nave
-#     dimensione_quadrato = 1
+def puo_inserire_nave(nave, orientamento, riga, colonna, griglia):
+    # Imposta la dimensione del quadrato intorno alla nave
+    dimensione_quadrato = 1
     
-#     if orientamento == OrientamentoNave.ORIZZONTALE.value":
-#         # Controllo se la nave entra nella griglia considerando la sua lunghezza
-#         if colonna + nave.lunghezza + dimensione_quadrato > len(griglia[0]):
-#             print("La nave non entra in questa posizione. Riprova")
-#             return False
-#         # Itero attraverso la lunghezza della nave
-#         for i in range(nave.lunghezza):
-#             for r in range(riga - dimensione_quadrato, riga + dimensione_quadrato + 1):
-#                 for c in range(colonna + i - dimensione_quadrato, colonna + i + dimensione_quadrato + 1):
-#                     if r < 0 or r >= len(griglia) or c < 0 or c >= len(griglia[0]):
-#                         continue  # Salta se le coordinate sono fuori dalla griglia
+    if orientamento == OrientamentoNave.ORIZZONTALE.value":
+        # Controllo se la nave entra nella griglia considerando la sua lunghezza
+        if colonna + nave.lunghezza + dimensione_quadrato > len(griglia[0]):
+            print("La nave non entra in questa posizione. Riprova")
+            return False
+        # Itero attraverso la lunghezza della nave
+        for i in range(nave.lunghezza):
+            for r in range(riga - dimensione_quadrato, riga + dimensione_quadrato + 1):
+                for c in range(colonna + i - dimensione_quadrato, colonna + i + dimensione_quadrato + 1):
+                    if r < 0 or r >= len(griglia) or c < 0 or c >= len(griglia[0]):
+                        continue  # Salta se le coordinate sono fuori dalla griglia
                         
-#                     if griglia[r][c] != StatoCella.VUOTA:
-#                         print("C'è una nave nelle vicinanze di questa posizione.")
-#                         return False
+                    if griglia[r][c] != StatoCella.VUOTA:
+                        print("C'è una nave nelle vicinanze di questa posizione.")
+                        return False
                         
-#     elif orientamento == OrientamentoNave.VERTICALE.value:
-#         # Controllo se la nave entra nella griglia considerando la sua lunghezza
-#         if riga + nave.lunghezza + dimensione_quadrato > len(griglia):
-#             print("La nave non entra in questa posizione. Riprova")
-#             return False
-#         # Itero attraverso la lunghezza della nave
-#         for i in range(nave.lunghezza):
-#             for r in range(riga + i - dimensione_quadrato, riga + i + dimensione_quadrato + 1):
-#                 for c in range(colonna - dimensione_quadrato, colonna + dimensione_quadrato + 1):
-#                     if r < 0 or r >= len(griglia) or c < 0 or c >= len(griglia[0]):
-#                         continue  # Salta se le coordinate sono fuori dalla griglia
+    elif orientamento == OrientamentoNave.VERTICALE.value:
+        # Controllo se la nave entra nella griglia considerando la sua lunghezza
+        if riga + nave.lunghezza + dimensione_quadrato > len(griglia):
+            print("La nave non entra in questa posizione. Riprova")
+            return False
+        # Itero attraverso la lunghezza della nave
+        for i in range(nave.lunghezza):
+            for r in range(riga + i - dimensione_quadrato, riga + i + dimensione_quadrato + 1):
+                for c in range(colonna - dimensione_quadrato, colonna + dimensione_quadrato + 1):
+                    if r < 0 or r >= len(griglia) or c < 0 or c >= len(griglia[0]):
+                        continue  # Salta se le coordinate sono fuori dalla griglia
                         
-#                     if griglia[r][c] != StatoCella.VUOTA:
-#                         print("C'è una nave nelle vicinanze di questa posizione.")
-#                         return False
+                    if griglia[r][c] != StatoCella.VUOTA:
+                        print("C'è una nave nelle vicinanze di questa posizione.")
+                        return False
                         
-#     else:
-#         raise ValueError("Orientamento non valido. Usare 'orizzontale' o 'verticale'.")
+    else:
+        raise ValueError("Orientamento non valido. Usare 'orizzontale' o 'verticale'.")
     
-#     return True
+    return True
  
-
+'''
     
 
 
