@@ -55,7 +55,7 @@ def puo_inserire_nave(nave, orientamento, riga, colonna, griglia):
     - True se è possibile inserire la nave nella posizione specificata, False altrimenti
 
     """
-    if orientamento == OrientamentoNave.ORIZZONTALE.value:
+    if orientamento == OrientamentoNave.ORIZZONTALE:
         # Verifica se la nave supera i limiti della griglia in orizzontale
         if colonna + nave.lunghezza > len(griglia[0]):
             print("La nave non entra in questa posizione. Riprova")
@@ -87,7 +87,7 @@ def puo_inserire_nave(nave, orientamento, riga, colonna, griglia):
                 print("C'è una nave nelle vicinanze di questa posizione. Riprova")
                 return False
 
-    elif orientamento == OrientamentoNave.VERTICALE.value:
+    elif orientamento == OrientamentoNave.VERTICALE:
         # Verifica se la nave supera i limiti della griglia in verticale
         if riga + nave.lunghezza > len(griglia):
             print("La nave non entra in questa posizione. Riprova")

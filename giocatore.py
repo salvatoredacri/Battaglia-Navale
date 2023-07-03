@@ -63,14 +63,10 @@ class giocatore():
                 if colonna_iniz not in colonne_valide or riga_iniz < 1 or riga_iniz > len(self.griglia_giocatore):
                     print("Coordinate non valide. Riprova.")
                     continue
-                if not nave.lunghezza ==1:
-                 orientamento = input("Inserisci l'orientamento della nave ('o' per orizzontale, 'v' per verticale): ")
-                 orientamento = orientamento.lower()  # Converte l'orientamento in minuscolo per facilitare i controlli successivi
+                if not nave.lunghezza == 1:
+                    orientamento = self.__input_orientamento()
                 else:
-                    orientamento == OrientamentoNave.ORIZZONTALE
-                if orientamento != OrientamentoNave.ORIZZONTALE.value and orientamento != OrientamentoNave.VERTICALE.value:
-                    print("Orientamento non valido. Riprova.")
-                    continue
+                    orientamento == OrientamentoNave.ORIZZONTALE # qualsiasi orientamento è indifferente
 
                 result = self.inserisci_nave(nave, orientamento, riga_iniz - 1, colonne_valide.index(colonna_iniz))
                 if result != False:
@@ -85,6 +81,17 @@ class giocatore():
                     
 
         return self.griglia_giocatore, self.navi_posizionate
+    
+    def __input_orientamento(self):
+        while True:
+            ori_str = input("Inserisci l'orientamento della nave: orizzontale (o) oppure verticale (v): ")
+            ori_str = ori_str.lower()  # Converte l'orientamento in minuscolo per facilitare i controlli successivi
+            if ori_str in ['orizzontale', 'o']:
+                return OrientamentoNave.ORIZZONTALE
+            elif ori_str in ['verticale', 'v']:
+                return OrientamentoNave.VERTICALE
+            else:
+                print("Orientamento non valido. Riprova.")
 
     def inserisci_nave(self, nave, orientamento, riga_iniz, colonna_iniz):
         """
@@ -105,13 +112,13 @@ class giocatore():
         """
         if puo_inserire_nave(nave, orientamento, riga_iniz, colonna_iniz, self.griglia_giocatore):
             coordinate = []
-            if orientamento == OrientamentoNave.ORIZZONTALE.value:
+            if orientamento == OrientamentoNave.ORIZZONTALE:
                 #inserisci nave
                 for i in range(nave.lunghezza):
                     self.griglia_giocatore[riga_iniz][colonna_iniz + i] = StatoCella.NAVE
                     coordinate.append((riga_iniz, colonna_iniz + i))
          
-            elif orientamento == OrientamentoNave.VERTICALE.value:
+            elif orientamento == OrientamentoNave.VERTICALE:
              #inserisci nave     
                 for i in range(nave.lunghezza):
                     self.griglia_giocatore[riga_iniz + i][colonna_iniz] = StatoCella.NAVE
